@@ -4,7 +4,9 @@ import router from "./routes/routes";
 
 function App() {
   return (
-    <RouterProvider router={router} />
+    <div className="dark:bg-black transition-colors duration-[0.5s]">
+      <RouterProvider router={router} />
+    </div>
   );
 }
 
