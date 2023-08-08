@@ -6,7 +6,7 @@ const Main = () => {
     return (
         <div className='flex gap-4'>
             <SideBar />
-            <div className=''>
+            <div className='relative'>
                 <Outlet />
             </div>
         </div>

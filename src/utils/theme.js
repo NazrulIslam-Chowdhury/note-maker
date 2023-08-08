@@ -7,7 +7,7 @@ const Mode = (theme) => {
             localStorage.setItem('theme', 'dark');
             break;
         case 'light':
-            element.classList.remove('dark');
+            element.classList.remove('dark')
             localStorage.setItem('theme', 'light');
             break
         default:
