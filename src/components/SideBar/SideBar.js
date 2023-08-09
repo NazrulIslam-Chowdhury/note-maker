@@ -72,18 +72,14 @@ const SideBar = () => {
                 <ul>
                     {
                         user ?
-                            <li className=' hover:bg-slate-200 dark:hover:bg-slate-800 px-3 py-2 cursor-pointer rounded transition-colors duration-[0.5s]'>
-                                <Link
-                                    to='/auth-form'
-                                    className='flex gap-4 items-center'>
-                                    <BiLogOut className='w-7 h-6 dark:text-white' />
-                                    <span className={`text-slate-500 dark:text-slate-400 text-lg font-medium ${close && 'hidden'}`}>Logout</span>
-                                </Link>
+                            <li className='flex gap-4 items-center hover:bg-slate-200 dark:hover:bg-slate-800 px-3 py-2 cursor-pointer rounded transition-colors duration-[0.5s]'>
+                                <BiLogOut className='w-7 h-6 dark:text-white' />
+                                <span className={`text-slate-500 dark:text-slate-400 text-lg font-medium ${close && 'hidden'}`}>Logout</span>
                             </li>
                             :
                             <li className=' hover:bg-slate-200 dark:hover:bg-slate-800 px-3 py-2 cursor-pointer rounded transition-colors duration-[0.5s]'>
                                 <Link
-                                    to='/auth-form'
+                                    to='/login'
                                     className='flex gap-4 items-center'>
                                     <BiLogIn className='w-7 h-6 dark:text-white' />
                                     <span className={`text-slate-500 dark:text-slate-400 text-lg font-medium ${close && 'hidden'}`}>Login</span>

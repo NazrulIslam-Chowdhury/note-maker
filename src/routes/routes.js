@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import Main from "../layouts";
 import { MyNotes } from "../components";
-import AuthForm from "../pages/AuthForm/AuthForm";
+import { Login, SignUp } from "../pages";
 
 const router = createBrowserRouter([
     {
@@ -13,8 +13,12 @@ const router = createBrowserRouter([
                 element: <MyNotes />
             },
             {
-                path: '/auth-form',
-                element: <AuthForm />
+                path: '/sign-up',
+                element: <SignUp />
+            },
+            {
+                path: '/login',
+                element: <Login />
             },
         ]
     }
