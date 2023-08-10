@@ -1,26 +1,57 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useForm } from 'react-hook-form';
-import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
-import { Link } from 'react-router-dom';
+import { AiOutlineEye, AiOutlineEyeInvisible, AiFillGoogleCircle } from 'react-icons/ai';
+import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../AuthProvider/AuthProvider';
+import { toast } from 'react-hot-toast';
+import { useTitle } from '../../utils';
 
 const Login = () => {
-    const [form, setForm] = useState();
+    const { loading, login, loginWithGoogle } = useContext(AuthContext);
     const [showPass, setShowPass] = useState(false);
-    const { register, handleSubmit, formState: { errors }, reset } = useForm();
 
-    const onSubmit = (e) => {
-        e.preventDefault();
+    const { register, handleSubmit, reset } = useForm();
+    const navigate = useNavigate();
 
-        console.log(form);
+    useTitle('Login');
+
+    // user login
+    const loginOnClick = (data) => {
+        login(data.email, data.password)
+            .then(result => {
+                // const user = result.user;
+                toast.success('Login successfully');
+
+                // navigate to home page after login
+                navigate('/');
+
+                // reset form
+                reset();
+            })
+            .catch(error => window.alert(error));
+    }
+
+    // login with google
+
+    const handleGoogleLogin = () => {
+        loginWithGoogle()
+            .then(result => {
+                const user = result.user;
+                // console.log(user)
+                toast.success(`${user.displayName} Logged in successfully`)
+                navigate('/');
+
+            })
+            .catch(error => window.alert(error))
     }
 
     return (
-        <div className='bg-white dark:bg-cyan-400 shadow-black shadow-2xl dark:shadow-cyan-400 rounded p-6 left-24 sm:left-[34rem] top-20 space-y-4 absolute sm:w-[450px] w-auto'>
+        <div className='bg-white dark:bg-cyan-400 shadow-black shadow-2xl dark:shadow-cyan-400 rounded p-6 left-24 sm:left-[36rem] sm:top-12 top-20 space-y-4 absolute sm:w-[450px] w-auto'>
             <p className='text-xl dark:text-white text-slate-800 font-semibold'>
                 Login
             </p>
             <form
-                onSubmit={handleSubmit(onSubmit)}
+                onSubmit={handleSubmit(loginOnClick)}
                 className='space-y-2'
             >
                 <div className='flex flex-col gap-2'>
@@ -30,7 +61,7 @@ const Login = () => {
                         name='email'
                         placeholder='Email'
                         {...register('email')}
-                        className='p-3 border-none outline-none caret-slate-500 min-w-full '
+                        className='p-3 outline-slate-400 caret-slate-400 min-w-full '
                         required
                     />
                 </div>
@@ -42,7 +73,7 @@ const Login = () => {
                         name='password'
                         placeholder='Password'
                         {...register('password', { minLength: 10 })}
-                        className='p-3 border-none outline-none caret-slate-500 min-w-full'
+                        className='p-3 outline-slate-400 caret-slate-400 min-w-full'
                         required
                     />
                     <div
@@ -58,9 +89,31 @@ const Login = () => {
                 </div>
 
                 <div className='w-auto bg-sky-400 hover:bg-sky-600 p-3 text-slate-200 font-medium text-xl cursor-pointer text-center'>
-                    <button className=''>Login</button>
+                    <button>
+                        {
+                            loading ?
+                                <div className='border-4 border-dotted border-slate-600 animate-spin rounded-full'>
+                                    <div className='bg-sky-400 hover:bg-sky-600 p-3 bg-opacity-0'>
+                                    </div>
+                                </div>
+                                :
+                                'Login'
+                        }
+                    </button>
                 </div>
             </form>
+            <p className='text-center text-lg font-medium'>Or</p>
+            <div className='w-auto bg-sky-400 hover:bg-sky-600 px-3 py-2 text-slate-200 font-medium text-xl cursor-pointer text-center'
+                onClick={handleGoogleLogin}
+            >
+                <button>
+                    <div className='flex gap-3 items-center'>
+                        <p>Login with</p>
+                        <AiFillGoogleCircle className='w-8 h-8 text-slate-700' />
+                    </div>
+                </button>
+            </div>
+
             <div className=''>
                 <p>
                     Don't have an account?

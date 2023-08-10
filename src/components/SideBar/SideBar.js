@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { logo } from '../../assets';
 import { logo2 } from '../../assets';
 import { IoIosArrowForward, IoIosArrowBack } from 'react-icons/io';
@@ -6,14 +6,22 @@ import { BiHome, BiCategory, BiTrash, BiLogOut, BiLogIn, BiSun, BiMoon } from 'r
 import { AiOutlineHeart } from 'react-icons/ai';
 import { Mode } from '../../utils';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../AuthProvider/AuthProvider';
+import { toast } from 'react-hot-toast';
 
 
 const SideBar = () => {
-    const [user, setUser] = useState(false);
+    const { user, logout } = useContext(AuthContext)
     const [close, setClose] = useState(false);
     const [theme, setTheme] = useState(localStorage.getItem('theme'));
 
     Mode(theme);
+
+    const logoutOnClick = () => {
+        logout()
+            .then(() => { toast.success('Logged out successfully') })
+            .catch((error) => console.log(error))
+    }
 
     return (
 
@@ -22,7 +30,7 @@ const SideBar = () => {
                 <img
                     src={close ? logo2 : logo}
                     alt="Logo"
-                    className={`${close ? 'w-20' : 'w-40'}`}
+                    className={`${close ? 'w-20' : 'w-40'}flex items-center px-3 py-2 `}
                 />
                 <div className='absolute top-2 -right-8 bg-cyan-500 rounded-full flex items-center justify-center p-2 cursor-pointer'
                     onClick={() => setClose(!close)}
@@ -39,6 +47,32 @@ const SideBar = () => {
                             />
                     }
                 </div>
+
+                {
+                    user?.uid &&
+                    <div className='group'>
+                        <img
+                            src={user?.photoURL}
+                            alt={user?.displayName}
+                            className='flex items-center px-3 py-2 w-auto h-auto cursor-pointer'
+                        />
+                        <div className={`bg-slate-300 px-3 py-2 hidden group-hover:flex group-hover:flex-col transition-transform duration-[0.5s] absolute rounded before:absolute before:bg-slate-300 before:p-1 before:-top-1 ${close ? 'before:left-6' : 'before:left-12'} before:rotate-45`}>
+                            <ul className='space-y-4'>
+                                <div className='space-y-2'>
+                                    {/* <div className='bg-slate-300 rotate-45 text-slate-300 absolute -top-1 left-11'>
+                                    <p className='opacity-0'>af</p>
+                                </div> */}
+                                    <li className='text-sm'>{user?.displayName}</li>
+                                    <li className='text-sm'>{user?.email}</li>
+                                </div>
+                                <li className='hover:bg-slate-400 px-3 py-2 cursor-pointer rounded transition-colors duration-[0.5s]'>
+                                    <Link className='text-slate-600 hover:text-slate-200 text-lg font-medium'>Edit Profile</Link>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                }
             </header>
 
             <div className='overflow-hidden'>
@@ -71,8 +105,10 @@ const SideBar = () => {
             <footer className='space-y-5 overflow-hidden'>
                 <ul>
                     {
-                        user ?
-                            <li className='flex gap-4 items-center hover:bg-slate-200 dark:hover:bg-slate-800 px-3 py-2 cursor-pointer rounded transition-colors duration-[0.5s]'>
+                        user?.uid ?
+                            <li className='flex gap-4 items-center hover:bg-slate-200 dark:hover:bg-slate-800 px-3 py-2 cursor-pointer rounded transition-colors duration-[0.5s]'
+                                onClick={logoutOnClick}
+                            >
                                 <BiLogOut className='w-7 h-6 dark:text-white' />
                                 <span className={`text-slate-500 dark:text-slate-400 text-lg font-medium ${close && 'hidden'}`}>Logout</span>
                             </li>
