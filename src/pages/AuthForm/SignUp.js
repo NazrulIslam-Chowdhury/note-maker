@@ -22,7 +22,9 @@ const SignUp = () => {
     const navigate = useNavigate();
 
     const onSubmit = (data) => {
-        if (data.password !== data.confirmPassword) {
+        const { firstName, lastName, password, confirmPassword, avatarURL } = data;
+
+        if (password !== confirmPassword) {
             return alert('Password did not match');
         }
 
@@ -33,8 +35,8 @@ const SignUp = () => {
                 const user = result.user;
                 toast.success(`User is created`);
                 const userInfo = {
-                    displayName: (data.firstName + ' ' + data.lastName),
-                    photoURL: data.avatarURL
+                    displayName: (firstName + ' ' + lastName),
+                    photoURL: avatarURL
                 }
 
                 // update user info

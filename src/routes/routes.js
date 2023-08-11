@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import Main from "../layouts";
 import { MyNotes } from "../components";
-import { Login, SignUp } from "../pages";
+import { Login, SignUp, AddNote } from "../pages";
 
 const router = createBrowserRouter([
     {
@@ -19,6 +19,10 @@ const router = createBrowserRouter([
             {
                 path: '/login',
                 element: <Login />
+            },
+            {
+                path: '/add-note',
+                element: <AddNote />
             },
         ]
     }

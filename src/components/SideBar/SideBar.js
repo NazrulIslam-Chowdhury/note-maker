@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { logo } from '../../assets';
 import { logo2 } from '../../assets';
 import { IoIosArrowForward, IoIosArrowBack } from 'react-icons/io';
-import { BiHome, BiCategory, BiTrash, BiLogOut, BiLogIn, BiSun, BiMoon } from 'react-icons/bi';
+import { BiHome, BiCategory, BiTrash, BiLogOut, BiLogIn, BiSun, BiMoon, BiChevronDown, BiPlus } from 'react-icons/bi';
 import { AiOutlineHeart } from 'react-icons/ai';
 import { Mode } from '../../utils';
 import { Link } from 'react-router-dom';
@@ -50,21 +50,19 @@ const SideBar = () => {
 
                 {
                     user?.uid &&
-                    <div className='group'>
-                        <img
-                            src={user?.photoURL}
-                            alt={user?.displayName}
-                            className='flex items-center px-3 py-2 w-auto h-auto cursor-pointer'
-                        />
-                        <div className={`bg-slate-300 px-3 py-2 hidden group-hover:flex group-hover:flex-col transition-transform duration-[0.5s] absolute rounded before:absolute before:bg-slate-300 before:p-1 before:-top-1 ${close ? 'before:left-6' : 'before:left-12'} before:rotate-45`}>
+                    <div className='group overflow-hidden'>
+                        <div className='flex gap-4 items-center cursor-pointer'>
+                            <img
+                                src={user?.photoURL}
+                                alt={user?.displayName}
+                                className='flex items-center w-20 h-16 px-3 py-2 object-fit'
+                            />
+                            <p className={`text-sm ${close && 'hidden'} dark:text-white`}>{user?.displayName}</p>
+                            <BiChevronDown className='h-8 w-8 dark:text-white' />
+                        </div>
+                        <div className={`bg-slate-300 px-3 py-2 hidden  group-hover:flex hover:flex-col transition-transform duration-[0.5s] absolute rounded before:absolute before:bg-slate-300 before:p-1 before:-top-1 ${close ? 'before:left-6' : 'before:left-12'} before:rotate-45`}>
                             <ul className='space-y-4'>
-                                <div className='space-y-2'>
-                                    {/* <div className='bg-slate-300 rotate-45 text-slate-300 absolute -top-1 left-11'>
-                                    <p className='opacity-0'>af</p>
-                                </div> */}
-                                    <li className='text-sm'>{user?.displayName}</li>
-                                    <li className='text-sm'>{user?.email}</li>
-                                </div>
+                                <li className='text-sm'>{user?.email}</li>
                                 <li className='hover:bg-slate-400 px-3 py-2 cursor-pointer rounded transition-colors duration-[0.5s]'>
                                     <Link className='text-slate-600 hover:text-slate-200 text-lg font-medium'>Edit Profile</Link>
                                 </li>
@@ -75,32 +73,42 @@ const SideBar = () => {
                 }
             </header>
 
-            <div className='overflow-hidden'>
+            <nav className='overflow-hidden'>
                 <ul className='space-y-5'>
+                    <li className='hover:bg-slate-800 bg-slate-950 dark:hover:bg-slate-800 px-3 py-2 cursor-pointer rounded transition-colors duration-[0.5s]'>
+                        <Link
+                            to='/add-note'
+                            className='flex gap-4 items-center'
+                        >
+                            <BiPlus className='w-7 h-6 text-white' />
+                            <span className={`text-slate-300 dark:text-slate-400 text-base sm:text-lg font-medium ${close && 'hidden'} `}>Add a note</span>
+                        </Link>
+                    </li>
+
                     <li className=' hover:bg-slate-200 dark:hover:bg-slate-800 px-3 py-2 cursor-pointer rounded transition-colors duration-[0.5s]'>
                         <Link
                             to='/'
                             className='flex gap-4 items-center'
                         >
                             <BiHome className='w-7 h-6 dark:text-white' />
-                            <span className={`text-slate-500 dark:text-slate-400 text-lg font-medium ${close && 'hidden'} `}>My Notes</span>
+                            <span className={`text-slate-500 dark:text-slate-400 text-base sm:text-lg font-medium ${close && 'hidden'} `}>My Notes</span>
                         </Link>
                     </li>
                     <li className='flex gap-4 items-center hover:bg-slate-200 dark:hover:bg-slate-800 px-3 py-2 cursor-pointer rounded transition-colors duration-[0.5s]'>
                         <BiCategory className='w-7 h-6 dark:text-white' />
-                        <span className={`text-slate-500 dark:text-slate-400 text-lg font-medium ${close && 'hidden'}`}>Notebooks</span>
+                        <span className={`text-slate-500 dark:text-slate-400 text-base sm:text-lg font-medium ${close && 'hidden'}`}>Notebooks</span>
                     </li>
                     <li className='flex gap-4 items-center hover:bg-slate-200 dark:hover:bg-slate-800 px-3 py-2 cursor-pointer rounded transition-colors duration-[0.5s]'>
                         <AiOutlineHeart className='w-7 h-6 dark:text-white' />
-                        <span className={`text-slate-500 dark:text-slate-400 text-lg font-medium ${close && 'hidden'}`}>
+                        <span className={`text-slate-500 dark:text-slate-400 text-base sm:text-lg font-medium ${close && 'hidden'}`}>
                             Likes</span>
                     </li>
                     <li className='flex gap-4 items-center hover:bg-slate-200 dark:hover:bg-slate-800 px-3 py-2 cursor-pointer rounded transition-colors duration-[0.5s]'>
                         <BiTrash className='w-7 h-6 dark:text-white' />
-                        <span className={`text-slate-500 dark:text-slate-400 text-lg font-medium ${close && 'hidden'}`}>Bin</span>
+                        <span className={`text-slate-500 dark:text-slate-400 text-base sm:text-lg font-medium ${close && 'hidden'}`}>Bin</span>
                     </li>
                 </ul>
-            </div>
+            </nav>
 
             <footer className='space-y-5 overflow-hidden'>
                 <ul>
@@ -110,7 +118,7 @@ const SideBar = () => {
                                 onClick={logoutOnClick}
                             >
                                 <BiLogOut className='w-7 h-6 dark:text-white' />
-                                <span className={`text-slate-500 dark:text-slate-400 text-lg font-medium ${close && 'hidden'}`}>Logout</span>
+                                <span className={`text-slate-500 dark:text-slate-400 text-base sm:text-lg font-medium ${close && 'hidden'}`}>Logout</span>
                             </li>
                             :
                             <li className=' hover:bg-slate-200 dark:hover:bg-slate-800 px-3 py-2 cursor-pointer rounded transition-colors duration-[0.5s]'>
@@ -118,7 +126,7 @@ const SideBar = () => {
                                     to='/login'
                                     className='flex gap-4 items-center'>
                                     <BiLogIn className='w-7 h-6 dark:text-white' />
-                                    <span className={`text-slate-500 dark:text-slate-400 text-lg font-medium ${close && 'hidden'}`}>Login</span>
+                                    <span className={`text-slate-500 dark:text-slate-400 text-base sm:text-lg font-medium ${close && 'hidden'}`}>Login</span>
                                 </Link>
                             </li>
                     }
@@ -131,13 +139,13 @@ const SideBar = () => {
                             <div
                                 className='flex items-center gap-4 ml-1'>
                                 <BiSun className='w-7 h-6 text-amber-500' />
-                                <h5 className={`text-slate-500 dark:text-slate-400 text-lg font-medium ${close && 'hidden'} `}>Light Mode</h5>
+                                <h5 className={`text-slate-500 dark:text-slate-400 text-base sm:text-lg font-medium ${close && 'hidden'} `}>Light Mode</h5>
                             </div>
                             :
                             <div
                                 className='flex items-center gap-4 ml-1'>
                                 <BiMoon className='w-7 h-6 text-sky-400' />
-                                <h5 className={`text-slate-500 dark:text-slate-400 text-lg font-medium ${close && 'hidden'}`}>Dark Mode</h5>
+                                <h5 className={`text-slate-500 dark:text-slate-400 text-base sm:text-lg font-medium ${close && 'hidden'}`}>Dark Mode</h5>
                             </div>
                     }
                 </div>
