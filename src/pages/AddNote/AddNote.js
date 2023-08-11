@@ -1,6 +1,7 @@
-import React from 'react'
-import { useTitle } from '../../utils'
-import { useForm } from 'react-hook-form'
+import React from 'react';
+import { useTitle } from '../../utils';
+import { useForm } from 'react-hook-form';
+import { CiMenuKebab } from 'react-icons/ci';
 
 const AddNote = () => {
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
@@ -16,10 +17,11 @@ const AddNote = () => {
             <div className='bg-white dark:bg-slate-900 px-5 py-3 rounded-md '>
                 <p className='text-xl font-medium dark:text-white'>New Note</p>
             </div>
-            <div className='bg-white dark:bg-slate-900 p-5 rounded-md flex flex-col sm:flex-row  gap-8'>
+
+            <div className='bg-white dark:bg-slate-900 p-5 rounded-md grid grid-cols-1 sm:grid-cols-3 gap-8'>
                 <form
                     onSubmit={handleSubmit(onSubmit)}
-                    className='space-y-3'>
+                    className='space-y-3 sm:col-span-2'>
                     <div className='flex flex-col gap-5'>
                         <label htmlFor="category" className='text-xl font-medium dark:text-white'>Give a category name</label>
                         <input
@@ -68,8 +70,16 @@ const AddNote = () => {
                         </div>
                     </div>
                 </form>
-                <div className='bg-slate-100 dark:bg-slate-800 dark:hover:bg-sky-400 dark:hover:bg-opacity-[0.5]  dark:text-white p-5 rounded-md space-y-3 transition-colors duration-[0.5s]'>
-                    <h1 className='text-2xl font-semibold'>Example Note</h1>
+
+                <div className='bg-slate-100 dark:bg-slate-800 dark:hover:bg-sky-400 dark:hover:bg-opacity-[0.5] dark:text-white p-5 rounded-md space-y-3 transition-colors duration-[0.5s]'>
+                    <div className='flex justify-between items-center relative group'>
+                        <h1 className='text-2xl font-semibold'>Example Note</h1>
+                        <CiMenuKebab className='h-6 w-6 cursor-pointer' />
+                        <ul className='absolute bg-slate-300 text-slate-700 dark:text-slate-500 dark:bg-slate-800 p-5 hidden group-hover:flex flex-col gap-3 right-5 top-1 rounded-md before:absolute before:bg-slate-300 dark:before:bg-slate-800 before:p-1 before:-right-1 before:top-3 before:rotate-45'>
+                            <li className='hover:bg-slate-700 hover:text-white px-3 py-2 transition-colors duration-[0.5s] cursor-pointer rounded'>Edit</li>
+                            <li className='hover:bg-slate-700 hover:text-white px-3 py-2 transition-colors duration-[0.5s] cursor-pointer rounded'>Delete</li>
+                        </ul>
+                    </div>
                     <h2 className='text-xl font-medium'>Demo</h2>
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis aspernatur accusamus excepturi, corporis eos provident magni cumque quisquam esse, alias voluptatum? Facilis, totam commodi, minus dignissimos quasi laudantium veniam possimus odio laboriosam voluptatem cupiditate culpa sit provident qui ipsa labore saepe? Suscipit, obcaecati quaerat enim magni dolorum quibusdam amet quod?</p>
                 </div>
