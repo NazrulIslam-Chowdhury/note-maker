@@ -10,15 +10,49 @@ const AddNote = () => {
 
     const onSubmit = (data) => {
         console.log(data);
+        const { category, title, description, image } = data;
+
+        fetch('http://localhost:5000/note-categories', {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify({ category: category })
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+            })
+            .catch(err => console.log(err));
+
+        const singleNote = {
+            category: category,
+            title: title,
+            description: description,
+            image: image
+        }
+
+        fetch('http://localhost:5000/notes', {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(singleNote)
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+            })
+            .catch(err => console.log(err));
     }
 
     return (
         <div className='left-24 sm:left-[7rem] top-2 absolute sm:w-[89.5vw] w-[72vw] space-y-4'>
-            <div className='bg-white dark:bg-slate-900 px-5 py-3 rounded-md '>
+            <div className='bg-white dark:bg-slate-900 transition-colors duration-[0.5s] px-5 py-3 rounded-md '>
                 <p className='text-xl font-medium dark:text-white'>New Note</p>
             </div>
 
-            <div className='bg-white dark:bg-slate-900 p-5 rounded-md grid grid-cols-1 sm:grid-cols-3 gap-8'>
+            <div className='bg-white dark:bg-slate-900 transition-colors duration-[0.5s] p-5 rounded-md grid grid-cols-1 sm:grid-cols-3 gap-8'>
                 <form
                     onSubmit={handleSubmit(onSubmit)}
                     className='space-y-3 sm:col-span-2'>
@@ -28,7 +62,7 @@ const AddNote = () => {
                             type="text"
                             {...register('category')}
                             placeholder='Category'
-                            className='px-5 py-3 bg-slate-200 dark:text-slate-200 dark:bg-slate-800 rounded-md text-xl outline-slate-400 caret-slate-400'
+                            className='px-5 py-3 bg-slate-200 dark:text-slate-200 dark:bg-slate-800 transition-colors duration-[0.5s] rounded-md text-xl outline-slate-400 caret-slate-400'
                             required
                         />
                     </div>
@@ -39,7 +73,7 @@ const AddNote = () => {
                             type="text"
                             {...register('title')}
                             placeholder='Title'
-                            className='px-5 py-3 bg-slate-200 dark:text-slate-200 dark:bg-slate-800 rounded-md text-xl outline-slate-400 caret-slate-400'
+                            className='px-5 py-3 bg-slate-200 dark:text-slate-200 dark:bg-slate-800 transition-colors duration-[0.5s] rounded-md text-xl outline-slate-400 caret-slate-400'
                             required
                         />
                     </div>
@@ -51,27 +85,29 @@ const AddNote = () => {
                             cols="30"
                             rows="6"
                             placeholder='Description'
-                            className='px-5 py-3 rounded-md text-xl outline-slate-400 caret-slate-400 bg-slate-200 dark:bg-slate-800 dark:text-slate-200'
+                            className='px-5 py-3 rounded-md text-xl outline-slate-400 caret-slate-400 bg-slate-200 dark:bg-slate-800 transition-colors duration-[0.5s] dark:text-slate-200'
                             required
                         />
                     </div>
                     <div className='flex flex-col sm:flex-row items-center justify-between gap-5'>
                         <div className='flex flex-col gap-5'>
-                            <label htmlFor="photo" className='text-xl font-medium dark:text-white'>Add Photo</label>
+                            <label htmlFor="image" className='text-xl font-medium dark:text-white'>Add Image</label>
                             <input
                                 type="file"
-                                {...register('photo')}
+                                {...register('image')}
                                 className=' dark:text-white rounded-md text-xl outline-slate-400 caret-slate-400 file:px-8 file:py-3 file:rounded-md file:bg-slate-200 file:cursor-pointer file:border-none w-[100%] sm:w-auto'
                                 multiple
                             />
                         </div>
-                        <div className='sm:w-[20%] w-full bg-sky-400 hover:bg-sky-600 p-3 text-slate-200 font-medium text-xl cursor-pointer text-center rounded-md'>
-                            <button>Add</button>
-                        </div>
+                        <button
+                            className='sm:w-[20%] w-full bg-sky-400 hover:bg-sky-600 p-3 text-slate-200 font-medium text-xl cursor-pointer text-center rounded-md dark:text-white dark:shadow-inner dark:shadow-white shadow-md shadow-black'
+                        >
+                            Add
+                        </button>
                     </div>
                 </form>
 
-                <div className='bg-slate-100 dark:bg-slate-800 dark:hover:bg-sky-400 dark:hover:bg-opacity-[0.5] dark:text-white p-5 rounded-md space-y-3 transition-colors duration-[0.5s]'>
+                <div className='bg-slate-100 dark:bg-slate-800 dark:hover:bg-sky-400 dark:hover:bg-opacity-[0.5] dark:text-white dark:shadow-inner dark:shadow-white shadow-md shadow-black p-5 rounded-md space-y-3 transition-colors duration-[0.5s]  after:absolute after:bg-red-400 after:h-1 after:w-full after:rounded-lg after:bottom-0 after:left-0 bar relative'>
                     <div className='flex justify-between items-center relative group'>
                         <h1 className='text-2xl font-semibold'>Example Note</h1>
                         <CiMenuKebab className='h-6 w-6 cursor-pointer' />
