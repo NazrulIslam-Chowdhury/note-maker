@@ -1,49 +1,23 @@
-import React from 'react';
-import { useTitle } from '../../utils';
+import React, { useContext, useState } from 'react';
+import { addNote, useTitle } from '../../utils';
 import { useForm } from 'react-hook-form';
 import { CiMenuKebab } from 'react-icons/ci';
+import { AuthContext } from '../../AuthProvider/AuthProvider';
 
+const imageHostingToken = process.env.REACT_APP_imageToken;
 const AddNote = () => {
-    const { register, handleSubmit, formState: { errors }, reset } = useForm();
+    const { user } = useContext(AuthContext);
+    const { register, handleSubmit, reset } = useForm();
+    const [isLoading, setIsLoading] = useState(false);
 
     useTitle('Add-Note')
 
-    const onSubmit = (data) => {
-        console.log(data);
-        const { category, title, description, image } = data;
+    const image_hosting_url = `https://api.imgbb.com/1/upload?key=${imageHostingToken}`
 
-        fetch('http://localhost:5000/note-categories', {
-            method: 'POST',
-            headers: {
-                'Content-type': 'application/json'
-            },
-            body: JSON.stringify({ category: category })
-        })
-            .then(res => res.json())
-            .then(data => {
-                console.log(data);
-            })
-            .catch(err => console.log(err));
-
-        const singleNote = {
-            category: category,
-            title: title,
-            description: description,
-            image: image
-        }
-
-        fetch('http://localhost:5000/notes', {
-            method: 'POST',
-            headers: {
-                'Content-type': 'application/json'
-            },
-            body: JSON.stringify(singleNote)
-        })
-            .then(res => res.json())
-            .then(data => {
-                console.log(data);
-            })
-            .catch(err => console.log(err));
+    const onSubmit = async (data) => {
+        // console.log(data);
+        addNote(data, setIsLoading, user, image_hosting_url);
+        reset();
     }
 
     return (
@@ -96,13 +70,12 @@ const AddNote = () => {
                                 type="file"
                                 {...register('image')}
                                 className=' dark:text-white rounded-md text-xl outline-slate-400 caret-slate-400 file:px-8 file:py-3 file:rounded-md file:bg-slate-200 file:cursor-pointer file:border-none w-[100%] sm:w-auto'
-                                multiple
                             />
                         </div>
                         <button
                             className='sm:w-[20%] w-full bg-sky-400 hover:bg-sky-600 p-3 text-slate-200 font-medium text-xl cursor-pointer text-center rounded-md dark:text-white dark:shadow-inner dark:shadow-white shadow-md shadow-black'
                         >
-                            Add
+                            {isLoading ? 'Adding...' : 'Add'}
                         </button>
                     </div>
                 </form>
