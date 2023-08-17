@@ -37,7 +37,7 @@ const addNote = async (data, setIsLoading, user, image_hosting_url) => {
         title: title,
         description: description,
         image: image ? image : null,
-        user_email: user?.email
+        email: user?.email
     }
 
     try {
