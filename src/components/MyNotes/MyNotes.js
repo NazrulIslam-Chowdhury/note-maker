@@ -1,48 +1,35 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { FcAlphabeticalSortingAz, FcAlphabeticalSortingZa } from 'react-icons/fc';
 import { TfiViewGrid, TfiViewList } from 'react-icons/tfi';
 import { BsSearch } from 'react-icons/bs';
-import { useQuery } from '@tanstack/react-query';
 import { AuthContext } from '../../AuthProvider/AuthProvider';
 import { Link } from 'react-router-dom';
 import GridView from './GridView';
 import TableView from './TableView';
+import { sortData } from '../../utils';
 
 const MyNotes = () => {
     const { user } = useContext(AuthContext);
     const [viewGrid, setViewGrid] = useState(true);
-    const [sortAZ, setSortAZ] = useState(true);
+    const [isAsc, setIsAsc] = useState(true);
     const [notes, setNotes] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
-    const { isLoading } = useQuery({
-        queryKey: ['notes'],
-        queryFn: async () => {
-            const noteCollection = await fetch(`http://localhost:5000/notesAll?email=${user?.email}`);
-            const data = await noteCollection.json();
-            setNotes(data);
-            return data;
-        }
-    })
+    useEffect(() => {
+        fetch(`http://localhost:5000/notesAll?&email=${user?.email}`)
+            .then(res => res.json())
+            .then(data => setNotes(data))
+        setIsLoading(false);
+    }, [user?.email])
 
     const sortOnClick = () => {
-        const sortAToZ = [...notes].sort((a, b) => {
-            if (a.title.toLowerCase() > b.title.toLowerCase() && sortAZ) {
-                setSortAZ(false)
-                return 1
-            } if (a.title.toLowerCase() < b.title.toLowerCase() && !sortAZ) {
-                setSortAZ(true)
-                return -1;
-            }
-            setNotes(true)
-            return 1;
-        })
-        setNotes(sortAToZ);
+        sortData(notes, setNotes, isAsc, setIsAsc)
     }
 
-    console.log(notes);
+    if (isLoading) return <h1 className='absolute left-[52rem] top-[20rem] z-10'>Loading...</h1>
 
     return (
-        <div className='left-24 sm:left-[7rem] sm:top-12 top-20 absolute sm:w-[89.5vw] w-[72vw] space-y-4 overflow-auto'>
+        <div className='left-24 sm:left-[7rem] sm:top-12 top-20 absolute sm:w-[89.5vw] w-[72vw] space-y-4 sm:overflow-visible overflow-x-auto'>
             <div className='flex sm:grid sm:grid-cols-4 gap-2'>
                 <div className='flex sm:col-span-3'>
                     <input
@@ -56,14 +43,13 @@ const MyNotes = () => {
                 </div>
                 <div className='flex items-center sm:col-span-1 gap-2 sm:gap-6 justify-center'>
                     <div
-                        className='cursor-pointer'
+                        className='cursor-pointer flex gap-2'
                         onClick={sortOnClick}
                     >
-                        {
-                            sortAZ ?
-                                <FcAlphabeticalSortingAz className='w-8 h-6' />
-                                :
-                                <FcAlphabeticalSortingZa className='w-8 h-6' />
+                        {isAsc ?
+                            <FcAlphabeticalSortingAz className='w-8 h-6' title='Ascending' />
+                            :
+                            <FcAlphabeticalSortingZa className='w-8 h-6' title='Descending' />
                         }
                     </div>
                     <div
