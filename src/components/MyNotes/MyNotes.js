@@ -1,7 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { FcAlphabeticalSortingAz, FcAlphabeticalSortingZa } from 'react-icons/fc';
 import { TfiViewGrid, TfiViewList } from 'react-icons/tfi';
-import { BsSearch } from 'react-icons/bs';
 import { AuthContext } from '../../AuthProvider/AuthProvider';
 import { Link } from 'react-router-dom';
 import GridView from './GridView';
@@ -14,17 +13,27 @@ const MyNotes = () => {
     const [isAsc, setIsAsc] = useState(true);
     const [notes, setNotes] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [search, setSearch] = useState();
+
+    // search notes
+    const filteredNotes = useMemo(() => {
+        return notes.filter((note) => {
+            return note.title.toLowerCase().includes(search?.toLowerCase())
+        })
+    }, [notes, search]);
 
     useEffect(() => {
-        fetch(`http://localhost:5000/notesAll?&email=${user?.email}`)
+        fetch(`http://localhost:5000/notesAll?email=${user?.email}`)
             .then(res => res.json())
             .then(data => setNotes(data))
         setIsLoading(false);
-    }, [user?.email])
+    }, [user?.email]);
 
+
+    // sort notes
     const sortOnClick = () => {
         sortData(notes, setNotes, isAsc, setIsAsc)
-    }
+    };
 
     if (isLoading) return <h1 className='absolute left-[52rem] top-[20rem] z-10'>Loading...</h1>
 
@@ -33,13 +42,12 @@ const MyNotes = () => {
             <div className='flex sm:grid sm:grid-cols-4 gap-2'>
                 <div className='flex sm:col-span-3'>
                     <input
-                        type="text"
-                        name=""
-                        id=""
-                        placeholder='Search by title or category'
-                        className='w-full px-3 py-2 sm:px-5 sm:py-3 bg-slate-200 text-slate-600 dark:text-slate-200 dark:bg-slate-800 transition-colors duration-[0.5s] rounded-md rounded-tr-none rounded-br-none sm:text-xl border-2 border-solid border-slate-400 border-r-0 outline-none caret-slate-400'
+                        type="search"
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        placeholder='Search by title'
+                        className='w-full px-3 py-2 sm:px-5 sm:py-3 bg-slate-100 text-slate-600 dark:text-slate-200 dark:bg-slate-800 transition-colors duration-[0.5s] rounded-md sm:text-xl border-2 border-solid outline-slate-400 caret-slate-400'
                     />
-                    <button className='bg-sky-400 text-white sm:text-lg font-medium p-4 rounded-tr-md rounded-br-md'><BsSearch /></button>
                 </div>
                 <div className='flex items-center sm:col-span-1 gap-2 sm:gap-6 justify-center'>
                     <div
@@ -73,7 +81,7 @@ const MyNotes = () => {
                             !viewGrid ?
                                 <div className='flex flex-col sm:flex-row flex-wrap gap-5'>
                                     {
-                                        notes.map((note) => <GridView note={note} key={note._id} />)
+                                        (search ? filteredNotes : notes).map((note) => <GridView note={note} key={note._id} />)
                                     }
                                 </div>
                                 :
@@ -88,7 +96,7 @@ const MyNotes = () => {
                                         </tr>
                                     </thead>
                                     {
-                                        notes.map((note, idx) => <TableView note={note} key={note._id} idx={idx} />)
+                                        (search ? filteredNotes : notes).map((note, idx) => <TableView note={note} key={note._id} idx={idx} />)
                                     }
                                 </table>
                         }
@@ -103,4 +111,4 @@ const MyNotes = () => {
     )
 }
 
-export default MyNotes
+export default MyNotes;
