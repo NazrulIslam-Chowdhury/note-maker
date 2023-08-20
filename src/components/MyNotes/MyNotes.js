@@ -14,6 +14,15 @@ const MyNotes = () => {
     const [notes, setNotes] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [search, setSearch] = useState();
+    const [currentPage, setCurrentPage] = useState(1);
+
+    // pagination
+    const recordsPerPage = 6;
+    const lastIndex = currentPage * recordsPerPage;
+    const firstIndex = lastIndex - recordsPerPage;
+    const records = notes.slice(firstIndex, lastIndex);
+    const nPage = Math.ceil(notes.length / recordsPerPage);
+    const numbers = [...Array(nPage + 1).keys()].slice(1);
 
     // search notes
     const filteredNotes = useMemo(() => {
@@ -22,6 +31,7 @@ const MyNotes = () => {
         })
     }, [notes, search]);
 
+    // load data
     useEffect(() => {
         fetch(`http://localhost:5000/notesAll?email=${user?.email}`)
             .then(res => res.json())
@@ -35,20 +45,41 @@ const MyNotes = () => {
         sortData(notes, setNotes, isAsc, setIsAsc)
     };
 
+    //pagination previous button 
+    const prevPage = () => {
+        if (currentPage !== 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    }
+
+    // pagination current page
+    const changeCurrentPage = (id) => {
+        setCurrentPage(id);
+    }
+
+    // pagination next button
+    const nextPage = () => {
+        if (currentPage !== nPage) {
+            setCurrentPage(currentPage + 1);
+        }
+    }
+
     if (isLoading) return <h1 className='absolute left-[52rem] top-[20rem] z-10'>Loading...</h1>
 
     return (
-        <div className='left-24 sm:left-[7rem] sm:top-12 top-20 absolute sm:w-[89.5vw] w-[72vw] space-y-4 sm:overflow-visible overflow-x-auto'>
+        <div className='left-24 sm:left-[7rem] top-2 sm:top-8 absolute sm:w-[89.5vw] w-[72vw] space-y-4 '>
             <div className='flex sm:grid sm:grid-cols-4 gap-2'>
                 <div className='flex sm:col-span-3'>
                     <input
                         type="search"
                         value={search}
-                        onChange={(e) => setSearch(e.target.value)}
+                        onChange={(e) => { setSearch(e.target.value) }}
                         placeholder='Search by title'
                         className='w-full px-3 py-2 sm:px-5 sm:py-3 bg-slate-100 text-slate-600 dark:text-slate-200 dark:bg-slate-800 transition-colors duration-[0.5s] rounded-md sm:text-xl border-2 border-solid outline-slate-400 caret-slate-400'
                     />
                 </div>
+
+                {/* sorting */}
                 <div className='flex items-center sm:col-span-1 gap-2 sm:gap-6 justify-center'>
                     <div
                         className='cursor-pointer flex gap-2'
@@ -60,6 +91,8 @@ const MyNotes = () => {
                             <FcAlphabeticalSortingZa className='w-8 h-6' title='Descending' />
                         }
                     </div>
+
+                    {/* view */}
                     <div
                         onClick={() => viewGrid ? setViewGrid(!viewGrid) : setViewGrid(!viewGrid)}
                         className='cursor-pointer'
@@ -76,12 +109,12 @@ const MyNotes = () => {
 
             {
                 notes.length > 0 ?
-                    <>
+                    <div className='sm:overflow-visible overflow-x-auto'>
                         {
                             !viewGrid ?
                                 <div className='flex flex-col sm:flex-row flex-wrap gap-5'>
                                     {
-                                        (search ? filteredNotes : notes).map((note) => <GridView note={note} key={note._id} />)
+                                        (search ? filteredNotes : records).map((note) => <GridView note={note} key={note._id} />)
                                     }
                                 </div>
                                 :
@@ -96,19 +129,45 @@ const MyNotes = () => {
                                         </tr>
                                     </thead>
                                     {
-                                        (search ? filteredNotes : notes).map((note, idx) => <TableView note={note} key={note._id} idx={idx} />)
+                                        (search ? filteredNotes : records).map((note, idx) => <TableView note={note} key={note._id} idx={idx} />)
                                     }
                                 </table>
                         }
-                    </>
+                    </div>
                     :
                     <Link to='/add-note'>
                         <p className='text-center text-4xl font-semibold dark:text-slate-200 mt-10'>Add a note</p>
                     </Link>
             }
 
+            {/* pagination */}
+            <nav>
+                <ul className='flex gap-2 sm:gap-5 items-center justify-center mt-5 sm:mt-10'>
+                    <li>
+                        <Link
+                            href="#"
+                            className='bg-white hover:bg-sky-200 dark:hover:bg-sky-400 dark:bg-slate-800 dark:text-white px-3 sm:px-5 py-2 transition-colors duration-[0.5s]'
+                            onClick={prevPage}>Prev</Link>
+                    </li>
+                    {
+                        numbers.map((number, idx) => (
+                            <li key={number}>
+                                <Link href="#"
+                                    className={`${currentPage === number ? 'bg-sky-200 dark:bg-sky-400' : ''} bg-white hover:bg-sky-200 dark:hover:bg-sky-400 dark:bg-slate-800 dark:text-white px-3 sm:px-5 py-2 transition-colors duration-[0.5s]`}
+                                    onClick={() => changeCurrentPage(number)}>{number}</Link>
+                            </li>
+                        ))
+                    }
+                    <li>
+                        <Link
+                            href="#"
+                            onClick={nextPage} className='bg-white hover:bg-sky-200 dark:hover:bg-sky-400 dark:bg-slate-800 dark:text-white px-3 sm:px-5 py-2 transition-colors duration-[0.5s]'>Next</Link>
+                    </li>
+                </ul>
+            </nav>
         </div>
     )
 }
+
 
 export default MyNotes;
