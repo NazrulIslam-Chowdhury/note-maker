@@ -5,9 +5,10 @@ import { IoIosArrowForward, IoIosArrowBack } from 'react-icons/io';
 import { BiHome, BiCategory, BiTrash, BiLogOut, BiLogIn, BiSun, BiMoon, BiChevronDown, BiPlus } from 'react-icons/bi';
 import { AiOutlineHeart } from 'react-icons/ai';
 import { Mode } from '../../utils';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { AuthContext } from '../../AuthProvider/AuthProvider';
 import { toast } from 'react-hot-toast';
+
 
 
 const SideBar = () => {
@@ -64,7 +65,7 @@ const SideBar = () => {
                             <ul className='space-y-4'>
                                 <li className='text-sm'>{user?.email}</li>
                                 <li className='hover:bg-slate-400 px-3 py-2 cursor-pointer rounded transition-colors duration-[0.5s]'>
-                                    <Link className='text-slate-600 hover:text-slate-200 text-lg font-medium'>Edit Profile</Link>
+                                    <Link className={` text-slate-600 hover:text-slate-200 text-lg font-medium`}>Edit Profile</Link>
                                 </li>
 
                             </ul>
@@ -75,28 +76,29 @@ const SideBar = () => {
 
             <nav className='overflow-hidden'>
                 <ul className='space-y-5'>
-                    <li className='hover:bg-slate-800 bg-slate-950 dark:hover:bg-slate-800 px-3 py-2 cursor-pointer rounded transition-colors duration-[0.5s]'>
-                        <Link
+                    <li>
+                        <NavLink
                             to='/add-note'
-                            className='flex gap-4 items-center'
+                            className={`${({ isActive }) => isActive ? '' : ''} flex gap-4 items-center hover:bg-slate-800 bg-slate-950 px-3 py-2 rounded transition-colors duration-[0.5s]`}
                         >
                             <BiPlus className='w-7 h-6 text-white' />
                             <span className={`text-slate-300 dark:text-slate-400 text-base sm:text-lg font-medium ${close && 'hidden'} `}>Add a note</span>
-                        </Link>
+                        </NavLink>
                     </li>
 
-                    <li className=' hover:bg-slate-200 dark:hover:bg-slate-800 px-3 py-2 cursor-pointer rounded transition-colors duration-[0.5s]'>
-                        <Link
+                    <li className=''>
+                        <NavLink
                             to='/'
-                            className='flex gap-4 items-center'
+                            className={`flex gap-4 items-center ${({ isActive }) => isActive ? '' : ''}  hover:bg-slate-200 dark:hover:bg-slate-800 px-3 py-2 rounded transition-colors duration-[0.5s]`}
                         >
                             <BiHome className='w-7 h-6 dark:text-white' />
                             <span className={`text-slate-500 dark:text-slate-400 text-base sm:text-lg font-medium ${close && 'hidden'} `}>My Notes</span>
-                        </Link>
+                        </NavLink>
                     </li>
-                    <li className='flex gap-4 items-center hover:bg-slate-200 dark:hover:bg-slate-800 px-3 py-2 cursor-pointer rounded transition-colors duration-[0.5s]'>
+                    <li className='flex gap-4 items-center hover:bg-slate-200 dark:hover:bg-slate-800 px-3 py-2 rounded transition-colors duration-[0.5s] cursor-pointer'>
                         <BiCategory className='w-7 h-6 dark:text-white' />
                         <span className={`text-slate-500 dark:text-slate-400 text-base sm:text-lg font-medium ${close && 'hidden'}`}>Notebooks</span>
+
                     </li>
                     <li className='flex gap-4 items-center hover:bg-slate-200 dark:hover:bg-slate-800 px-3 py-2 cursor-pointer rounded transition-colors duration-[0.5s]'>
                         <AiOutlineHeart className='w-7 h-6 dark:text-white' />

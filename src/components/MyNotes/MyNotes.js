@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { FcAlphabeticalSortingAz, FcAlphabeticalSortingZa } from 'react-icons/fc';
 import { TfiViewGrid, TfiViewList } from 'react-icons/tfi';
 import { AuthContext } from '../../AuthProvider/AuthProvider';
@@ -32,12 +32,16 @@ const MyNotes = () => {
     }, [notes, search]);
 
     // load data
-    useEffect(() => {
+    const getNotes = useCallback(() => {
         fetch(`http://localhost:5000/notesAll?email=${user?.email}`)
             .then(res => res.json())
             .then(data => setNotes(data))
-        setIsLoading(false);
     }, [user?.email]);
+
+    useEffect(() => {
+        getNotes();
+        setIsLoading(false);
+    }, [getNotes]);
 
 
     // sort notes
@@ -50,11 +54,6 @@ const MyNotes = () => {
         if (currentPage !== 1) {
             setCurrentPage(currentPage - 1);
         }
-    }
-
-    // pagination current page
-    const changeCurrentPage = (id) => {
-        setCurrentPage(id);
     }
 
     // pagination next button
@@ -92,7 +91,7 @@ const MyNotes = () => {
                         }
                     </div>
 
-                    {/* view */}
+                    {/* view icon*/}
                     <div
                         onClick={() => viewGrid ? setViewGrid(!viewGrid) : setViewGrid(!viewGrid)}
                         className='cursor-pointer'
@@ -107,6 +106,7 @@ const MyNotes = () => {
                 </div>
             </div>
 
+            {/* view data*/}
             {
                 notes.length > 0 ?
                     <div className='sm:overflow-visible overflow-x-auto'>
@@ -114,11 +114,11 @@ const MyNotes = () => {
                             !viewGrid ?
                                 <div className='flex flex-col sm:flex-row flex-wrap gap-5'>
                                     {
-                                        (search ? filteredNotes : records).map((note) => <GridView note={note} key={note._id} />)
+                                        (search ? filteredNotes : records).map((note) => <GridView note={note} key={note._id} getNotes={getNotes} />)
                                     }
                                 </div>
                                 :
-                                <table className='w-full'>
+                                <table className='w-full shadow-md shadow-black'>
                                     <thead className=' bg-white dark:bg-slate-900 transition-colors duration-[0.5s]'>
                                         <tr>
                                             <th></th>
@@ -129,7 +129,7 @@ const MyNotes = () => {
                                         </tr>
                                     </thead>
                                     {
-                                        (search ? filteredNotes : records).map((note, idx) => <TableView note={note} key={note._id} idx={idx} />)
+                                        (search ? filteredNotes : records).map((note, idx) => <TableView note={note} key={note._id} idx={idx} getNotes={getNotes} />)
                                     }
                                 </table>
                         }
@@ -140,27 +140,29 @@ const MyNotes = () => {
                     </Link>
             }
 
+
             {/* pagination */}
             <nav>
                 <ul className='flex gap-2 sm:gap-5 items-center justify-center mt-5 sm:mt-10'>
                     <li>
                         <Link
-                            href="#"
                             className='bg-white hover:bg-sky-200 dark:hover:bg-sky-400 dark:bg-slate-800 dark:text-white px-3 sm:px-5 py-2 transition-colors duration-[0.5s]'
                             onClick={prevPage}>Prev</Link>
                     </li>
                     {
-                        numbers.map((number, idx) => (
-                            <li key={number}>
-                                <Link href="#"
-                                    className={`${currentPage === number ? 'bg-sky-200 dark:bg-sky-400' : ''} bg-white hover:bg-sky-200 dark:hover:bg-sky-400 dark:bg-slate-800 dark:text-white px-3 sm:px-5 py-2 transition-colors duration-[0.5s]`}
-                                    onClick={() => changeCurrentPage(number)}>{number}</Link>
+                        numbers.map((num, idx) => (
+                            <li key={idx}>
+                                <Link
+                                    className={`${currentPage === num ? 'border-b-4 border-white' : ''} bg-white hover:bg-sky-200 dark:hover:bg-sky-400 dark:bg-slate-800 dark:text-white px-3 sm:px-5 py-2 transition-colors duration-[0.5s]`}
+                                    onClick={() => setCurrentPage(num)}
+                                >
+                                    {num}
+                                </Link>
                             </li>
                         ))
                     }
                     <li>
                         <Link
-                            href="#"
                             onClick={nextPage} className='bg-white hover:bg-sky-200 dark:hover:bg-sky-400 dark:bg-slate-800 dark:text-white px-3 sm:px-5 py-2 transition-colors duration-[0.5s]'>Next</Link>
                     </li>
                 </ul>

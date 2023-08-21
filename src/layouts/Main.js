@@ -8,7 +8,7 @@ const Main = () => {
     return (
         <div className='flex gap-4'>
             <SideBar />
-            <div className='relative'>
+            <div className=''>
                 <Outlet />
             </div>
         </div>

@@ -25,7 +25,7 @@ const addNote = async (data, setIsLoading, user, image_hosting_url) => {
         })
 
         const response = await cate.json();
-        console.log(response);
+        // console.log(response);
     } catch (err) {
         setIsLoading(false);
         alert(err);
