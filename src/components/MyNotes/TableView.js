@@ -1,14 +1,16 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { CiMenuKebab } from 'react-icons/ci'
 import { deleteNote } from '../../utils';
+import { AuthContext } from '../../AuthProvider/AuthProvider';
 // import { Link } from 'react-router-dom';
 
 const TableView = ({ note, idx, getNotes }) => {
+    const { user } = useContext(AuthContext);
     const { description, title, category, _id } = note;
     const [open, setOpen] = useState(false);
 
     const deleteOnClick = (id) => {
-        deleteNote(id, getNotes)
+        deleteNote(id, getNotes, note, user);
     }
 
 

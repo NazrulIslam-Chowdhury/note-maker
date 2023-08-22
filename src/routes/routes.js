@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import Main from "../layouts";
 import { MyNotes } from "../components";
-import { Login, SignUp, AddNote, NoteDescription } from "../pages";
+import { Login, SignUp, AddNote, NoteDescription, NoteBin } from "../pages";
 
 const router = createBrowserRouter([
     {
@@ -32,7 +32,11 @@ const router = createBrowserRouter([
                     )
                 },
                 element: <NoteDescription />
-            }
+            },
+            {
+                path: '/note-bin',
+                element: <NoteBin />
+            },
         ]
     }
 ])

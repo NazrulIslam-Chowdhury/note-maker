@@ -1,14 +1,16 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { CiMenuKebab } from 'react-icons/ci';
 import { deleteNote } from '../../utils';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../AuthProvider/AuthProvider';
 
 const GridView = ({ note, getNotes }) => {
+    const { user } = useContext(AuthContext);
     const { category, title, description, _id } = note;
     const [open, setOpen] = useState(false);
 
     const deleteOnClick = (id) => {
-        deleteNote(id, getNotes)
+        deleteNote(id, getNotes, note, user)
     }
 
     return (

@@ -105,9 +105,13 @@ const SideBar = () => {
                         <span className={`text-slate-500 dark:text-slate-400 text-base sm:text-lg font-medium ${close && 'hidden'}`}>
                             Likes</span>
                     </li>
-                    <li className='flex gap-4 items-center hover:bg-slate-200 dark:hover:bg-slate-800 px-3 py-2 cursor-pointer rounded transition-colors duration-[0.5s]'>
-                        <BiTrash className='w-7 h-6 dark:text-white' />
-                        <span className={`text-slate-500 dark:text-slate-400 text-base sm:text-lg font-medium ${close && 'hidden'}`}>Bin</span>
+                    <li>
+                        <NavLink
+                            to='/note-bin'
+                            className={`${({ isActive }) => isActive ? '' : ''} flex gap-4 items-center hover:bg-slate-200 dark:hover:bg-slate-800 px-3 py-2 cursor-pointer rounded transition-colors duration-[0.5s]`}>
+                            <BiTrash className='w-7 h-6 dark:text-white' />
+                            <span className={`text-slate-500 dark:text-slate-400 text-base sm:text-lg font-medium ${close && 'hidden'}`}>Bin</span>
+                        </NavLink>
                     </li>
                 </ul>
             </nav>
