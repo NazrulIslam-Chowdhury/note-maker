@@ -3,6 +3,7 @@ import { CiMenuKebab } from 'react-icons/ci'
 import { MdRestore } from 'react-icons/md'
 import { deleteNote, restoreNote } from '../../utils';
 import { AuthContext } from '../../AuthProvider/AuthProvider';
+import { Link } from 'react-router-dom';
 // import { Link } from 'react-router-dom';
 
 const TableView = ({ note, idx, getNotes, getBinNotes, restore }) => {
@@ -36,9 +37,12 @@ const TableView = ({ note, idx, getNotes, getBinNotes, restore }) => {
                                 {
                                     open &&
                                     <ul className={`absolute bg-slate-300 text-slate-700 dark:text-slate-400 dark:bg-slate-700 p-5 flex flex-col gap-3 right-12 top-6 rounded-md before:absolute before:bg-slate-300 dark:before:bg-slate-700 before:p-1 before:-right-1 before:top-3 before:rotate-45 z-10`}>
-                                        <li
-                                            className='hover:bg-slate-800 hover:text-white px-3 py-2 transition-colors duration-[0.5s] cursor-pointer rounded'>
-                                            View
+                                        <li className='hover:bg-slate-800 hover:text-white px-3 py-2 transition-colors duration-[0.5s] cursor-pointer rounded'>
+                                            <Link
+                                                to={`/note-description/${_id}`}
+                                            >
+                                                View
+                                            </Link>
                                         </li>
                                         <li
                                             onClick={() => deleteOnClick(_id)}

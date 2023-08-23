@@ -29,8 +29,6 @@ const NoteBin = () => {
         setIsLoading(false);
     }, [getBinNotes]);
 
-    console.log(notes);
-
     // pagination
     const recordsPerPage = 6;
     const lastIndex = currentPage * recordsPerPage;
@@ -140,14 +138,14 @@ const NoteBin = () => {
                     <ul className='flex gap-2 sm:gap-5 items-center justify-center mt-5 sm:mt-10'>
                         <li>
                             <Link
-                                className='bg-white hover:bg-sky-200 dark:hover:bg-sky-400 dark:bg-slate-800 dark:text-white px-3 sm:px-5 py-2 transition-colors duration-[0.5s]'
+                                className='bg-white hover:bg-sky-200 dark:hover:bg-sky-400 dark:bg-slate-800 dark:text-white px-3 sm:px-5 py-2 transition-colors duration-[0.5s] shadow-md'
                                 onClick={prevPage}>Prev</Link>
                         </li>
                         {
                             numbers.map((num, idx) => (
                                 <li key={idx}>
                                     <Link
-                                        className={`${currentPage === num ? 'border-b-4 border-white' : ''} bg-white hover:bg-sky-200 dark:hover:bg-sky-400 dark:bg-slate-800 dark:text-white px-3 sm:px-5 py-2 transition-colors duration-[0.5s]`}
+                                        className={`${currentPage === num ? 'border-b-4 border-slate-600' : ''} bg-white hover:bg-sky-200 dark:hover:bg-sky-400 dark:bg-slate-800 dark:text-white px-3 sm:px-5 py-2 transition-colors duration-[0.5s] shadow-md`}
                                         onClick={() => setCurrentPage(num)}
                                     >
                                         {num}
@@ -157,7 +155,7 @@ const NoteBin = () => {
                         }
                         <li>
                             <Link
-                                onClick={nextPage} className='bg-white hover:bg-sky-200 dark:hover:bg-sky-400 dark:bg-slate-800 dark:text-white px-3 sm:px-5 py-2 transition-colors duration-[0.5s]'>Next</Link>
+                                onClick={nextPage} className='bg-white hover:bg-sky-200 dark:hover:bg-sky-400 dark:bg-slate-800 dark:text-white px-3 sm:px-5 py-2 transition-colors duration-[0.5s] shadow-md'>Next</Link>
                         </li>
                     </ul>
                 </nav>

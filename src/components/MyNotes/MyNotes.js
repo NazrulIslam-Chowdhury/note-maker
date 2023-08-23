@@ -74,7 +74,7 @@ const MyNotes = () => {
                         value={search}
                         onChange={(e) => { setSearch(e.target.value) }}
                         placeholder='Search by title'
-                        className='w-full px-3 py-2 sm:px-5 sm:py-3 bg-slate-100 text-slate-600 dark:text-slate-200 dark:bg-slate-800 transition-colors duration-[0.5s] rounded-md sm:text-xl border-2 border-solid outline-slate-400 caret-slate-400'
+                        className='w-full px-3 py-2 sm:px-5 sm:py-3 bg-slate-100 text-slate-600 dark:text-slate-200 dark:bg-slate-800 transition-colors duration-[0.5s] rounded-md sm:text-xl border-2 border-solid border-slate-400 outline-slate-400 caret-slate-400'
                     />
                 </div>
 
@@ -146,14 +146,14 @@ const MyNotes = () => {
                 <ul className='flex gap-2 sm:gap-5 items-center justify-center mt-5 sm:mt-10'>
                     <li>
                         <Link
-                            className='bg-white hover:bg-sky-200 dark:hover:bg-sky-400 dark:bg-slate-800 dark:text-white px-3 sm:px-5 py-2 transition-colors duration-[0.5s]'
+                            className='bg-white hover:bg-sky-200 dark:hover:bg-sky-400 dark:bg-slate-800 dark:text-white px-3 sm:px-5 py-2 transition-colors duration-[0.5s] shadow-md'
                             onClick={prevPage}>Prev</Link>
                     </li>
                     {
                         numbers.map((num, idx) => (
                             <li key={idx}>
                                 <Link
-                                    className={`${currentPage === num ? 'border-b-4 border-white' : ''} bg-white hover:bg-sky-200 dark:hover:bg-sky-400 dark:bg-slate-800 dark:text-white px-3 sm:px-5 py-2 transition-colors duration-[0.5s]`}
+                                    className={`${currentPage === num ? 'border-b-4 border-white' : ''} bg-white hover:bg-sky-200 dark:hover:bg-sky-400 dark:bg-slate-800 dark:text-white px-3 sm:px-5 py-2 transition-colors duration-[0.5s] shadow-md`}
                                     onClick={() => setCurrentPage(num)}
                                 >
                                     {num}
@@ -163,7 +163,7 @@ const MyNotes = () => {
                     }
                     <li>
                         <Link
-                            onClick={nextPage} className='bg-white hover:bg-sky-200 dark:hover:bg-sky-400 dark:bg-slate-800 dark:text-white px-3 sm:px-5 py-2 transition-colors duration-[0.5s]'>Next</Link>
+                            onClick={nextPage} className='bg-white hover:bg-sky-200 dark:hover:bg-sky-400 dark:bg-slate-800 dark:text-white px-3 sm:px-5 py-2 transition-colors duration-[0.5s] shadow-md'>Next</Link>
                     </li>
                 </ul>
             </nav>
