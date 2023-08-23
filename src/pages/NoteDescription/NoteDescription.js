@@ -2,11 +2,13 @@ import React, { useEffect, useRef, useState } from 'react'
 import { BiEdit } from 'react-icons/bi';
 import { RiDeleteBin5Line, RiDownload2Line } from 'react-icons/ri';
 import { useLoaderData } from 'react-router-dom'
+import Modal from './Modal';
 
 const NoteDescription = () => {
   const note = useLoaderData();
   const { category, title, description, image } = note;
   const [showDownload, setShowDownload] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
   const ref = useRef();
 
   useEffect(() => {
@@ -23,12 +25,12 @@ const NoteDescription = () => {
   }, [])
 
   return (
-    <div className='left-24 sm:left-[7rem] top-16 sm:top-8 absolute sm:w-[89.5vw] w-[72vw] space-y-4'>
+    <div className='left-24 sm:left-[7rem] top-16 sm:top-8 relative sm:w-[89.5vw] w-[72vw] space-y-4'>
       <div className='bg-slate-100 dark:bg-slate-800 hover:bg-sky-200 dark:hover:bg-sky-400 dark:hover:bg-opacity-[0.5] dark:text-white dark:shadow-inner dark:shadow-white shadow-md shadow-black p-5 rounded-md space-y-3 transition-colors duration-[0.5s]  after:absolute after:bg-red-400 after:h-1 after:w-full after:rounded-lg after:bottom-0 after:left-0 bar relative'>
         <div className='space-y-5'>
           <ul className=' text-slate-700 dark:text-slate-500 flex flex-row sm:gap-3 gap-1 rounded-md '>
             <li className='hover:bg-slate-700 hover:text-white px-3 py-2 transition-colors duration-[0.5s] cursor-pointer rounded'>
-              <BiEdit className='w-7 h-7' />
+              <BiEdit className='w-7 h-7' onClick={() => setModalOpen(!modalOpen)} />
             </li>
             <li className='hover:bg-slate-700 hover:text-white px-3 py-2 transition-colors duration-[0.5s] cursor-pointer rounded'>
               <RiDeleteBin5Line className='w-7 h-7' />
@@ -60,6 +62,12 @@ const NoteDescription = () => {
           className='w-[300px] h-[300px] object-cover'
         />
       </div>
+
+      {/* modal */}
+      {
+        modalOpen &&
+        <Modal note={note} setModalOpen={setModalOpen} />
+      }
     </div>
   )
 }

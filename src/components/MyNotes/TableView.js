@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { CiMenuKebab } from 'react-icons/ci'
 import { MdRestore } from 'react-icons/md'
 import { deleteNote, restoreNote } from '../../utils';
@@ -10,11 +10,25 @@ const TableView = ({ note, idx, getNotes, getBinNotes, restore }) => {
     const { user } = useContext(AuthContext);
     const { description, title, category, _id } = note;
     const [open, setOpen] = useState(false);
+    const ref = useRef();
 
     const deleteOnClick = (id) => {
         restore ? restoreNote(id, note, user, getBinNotes) : deleteNote(id, getNotes, note, user);
     }
 
+    // close the menu clicking outside
+    useEffect(() => {
+        let closeOnTap = (e) => {
+            if (!ref.current.contains(e.target)) {
+                setOpen(false);
+            }
+        };
+        document.addEventListener('mousedown', closeOnTap);
+
+        return () => {
+            document.removeEventListener('mousedown', closeOnTap)
+        }
+    }, [])
 
     return (
         <tbody className='bg-slate-100 hover:bg-sky-200 dark:bg-slate-800 dark:hover:bg-sky-400 dark:hover:bg-opacity-[0.5] dark:text-white dark:shadow-inner dark:shadow-white rounded-md transition-colors duration-[0.5s] w-[100%] relative'>
@@ -25,15 +39,15 @@ const TableView = ({ note, idx, getNotes, getBinNotes, restore }) => {
 
                 <td className='px-5 py-7'>{title}</td>
                 <td className='px-5 py-7'>{category}</td>
-                <td>
+                <td ref={ref}>
                     {
                         restore ?
                             <>
                                 <MdRestore className='h-6 w-6 cursor-pointer' onClick={() => deleteOnClick(_id)} />
                             </>
                             :
-                            <>
-                                <CiMenuKebab className='h-6 w-6 cursor-pointer' onClick={() => open ? setOpen(!open) : setOpen(!open)} />
+                            <div >
+                                <CiMenuKebab className='h-6 w-6 cursor-pointer' onClick={() => setOpen(!open)} />
                                 {
                                     open &&
                                     <ul className={`absolute bg-slate-300 text-slate-700 dark:text-slate-400 dark:bg-slate-700 p-5 flex flex-col gap-3 right-12 top-6 rounded-md before:absolute before:bg-slate-300 dark:before:bg-slate-700 before:p-1 before:-right-1 before:top-3 before:rotate-45 z-10`}>
@@ -49,7 +63,7 @@ const TableView = ({ note, idx, getNotes, getBinNotes, restore }) => {
                                             className='hover:bg-slate-800 hover:text-white px-3 py-2 transition-colors duration-[0.5s] cursor-pointer rounded'>Delete</li>
                                     </ul>
                                 }
-                            </>
+                            </div>
                     }
                 </td>
             </tr>
