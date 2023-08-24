@@ -3,6 +3,7 @@ import { AiOutlineCloseSquare } from 'react-icons/ai';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 
+
 const Modal = ({ note, setModalOpen }) => {
     const { category, title, description, image } = note;
     const { register, handleSubmit } = useForm();
