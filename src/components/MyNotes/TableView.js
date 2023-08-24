@@ -35,8 +35,8 @@ const TableView = ({ note, idx, getNotes, getBinNotes, restore }) => {
             <tr>
                 <th className='px-5 py-7'>{idx + 1}</th>
 
-                <td className='px-5 py-7'>{description.length > 50 ? description.slice(0, 51) + '...' : description}</td>
-
+                <td className='px-5 py-7'>{description?.length > 50 ? description.slice(0, 51) + '...' : description}
+                </td>
                 <td className='px-5 py-7'>{title}</td>
                 <td className='px-5 py-7'>{category}</td>
                 <td ref={ref}>
@@ -67,7 +67,6 @@ const TableView = ({ note, idx, getNotes, getBinNotes, restore }) => {
                     }
                 </td>
             </tr>
-
         </tbody>
     )
 }

@@ -60,7 +60,7 @@ const GridView = ({ note, getNotes, getBinNotes, restore }) => {
                 }
             </div>
             <h2 className='text-xl font-medium'><span className='text-slate-500 text-sm'>Title :</span> {title}</h2>
-            <p><span className='text-slate-500 text-sm'>Description :</span> {description.length > 100 ? description.split(0, 101) : description}</p>
+            <p><span className='text-slate-500 text-sm'>Description :</span> {description?.length > 100 ? description.slice(0, 100) + '...' : description}</p>
         </div>
     )
 }
