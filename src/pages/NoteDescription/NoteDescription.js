@@ -3,64 +3,24 @@ import { BiEdit, BiHeart, BiSolidHeart } from 'react-icons/bi';
 import { RiDownload2Line } from 'react-icons/ri';
 import { useLoaderData } from 'react-router-dom'
 import Modal from './Modal';
-import { toast } from 'react-hot-toast';
+import { addToFavorite, closeOnTapOutside } from '../../utils';
 
 const NoteDescription = () => {
   const note = useLoaderData();
   const { category, title, description, image, favorite } = note;
-  const [isFavorite, setIsFavorite] = useState(favorite?.isFavorite ? false : true);
+  const [liked, setLiked] = useState(favorite.isFavorite ? favorite.isFavorite : false);
   const [showDownload, setShowDownload] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-  const ref = useRef();
-  console.log(note)
 
+  const ref = useRef();
 
   // close the menu after clicking outside
   useEffect(() => {
-    let closeOnTap = (e) => {
-      if (!ref.current.contains(e.target)) {
-        setShowDownload(false);
-      }
-    };
-    document.addEventListener('mousedown', closeOnTap);
-
-    return () => {
-      document.removeEventListener('mousedown', closeOnTap)
-    }
+    closeOnTapOutside(ref, setShowDownload);
   }, [])
 
   const addToFavoriteOnClick = async () => {
-    isFavorite ? setIsFavorite(false) : setIsFavorite(true);
-    const req = await fetch(`http://localhost:5000/notesAll/favorite/${note._id}`, {
-      method: 'PUT',
-      headers: {
-        'content-type': 'application/json'
-      },
-      body: JSON.stringify({ isFavorite })
-    })
-    const res = await req.json();
-    if (res.acknowledged && isFavorite !== true) {
-      const req = await fetch(`http://localhost:5000/favorite`, {
-        method: 'POST',
-        headers: {
-          'content-type': 'application/json'
-        },
-        body: JSON.stringify(note)
-      });
-      const res = await req.json();
-      if (res.acknowledged) {
-        toast.success('Added to favorite')
-      }
-    }
-    if (res.acknowledged && isFavorite !== false) {
-      const req = await fetch(`http://localhost:5000/favorite/${note._id}`, {
-        method: 'DELETE',
-      });
-      const res = await req.json();
-      if (res.acknowledged) {
-        toast.success('Removed from favorite')
-      }
-    }
+    addToFavorite(liked, setLiked, favorite, note)
   }
 
   return (
@@ -91,11 +51,10 @@ const NoteDescription = () => {
               <li
                 onClick={addToFavoriteOnClick}
                 className='hover:bg-slate-700 hover:text-white px-3 py-2 transition-colors duration-[0.5s] cursor-pointer rounded'>
-                {
-                  isFavorite === true ?
-                    <BiSolidHeart className='text-red-500 w-7 h-7' />
-                    :
-                    <BiHeart className='w-7 h-7' />
+                {liked ?
+                  <BiSolidHeart className='text-red-500 w-7 h-7' />
+                  :
+                  <BiHeart className='w-7 h-7' />
                 }
               </li>
             </ul>

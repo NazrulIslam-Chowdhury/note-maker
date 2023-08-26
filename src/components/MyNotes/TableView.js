@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { CiMenuKebab } from 'react-icons/ci'
 import { MdRestore } from 'react-icons/md'
-import { deleteNote, restoreNote } from '../../utils';
+import { closeOnTapOutside, deleteNote, restoreNote } from '../../utils';
 import { AuthContext } from '../../AuthProvider/AuthProvider';
 import { Link } from 'react-router-dom';
 // import { Link } from 'react-router-dom';
@@ -18,16 +18,7 @@ const TableView = ({ note, idx, getNotes, getBinNotes, restore }) => {
 
     // close the menu clicking outside
     useEffect(() => {
-        let closeOnTap = (e) => {
-            if (!ref.current.contains(e.target)) {
-                setOpen(false);
-            }
-        };
-        document.addEventListener('mousedown', closeOnTap);
-
-        return () => {
-            document.removeEventListener('mousedown', closeOnTap)
-        }
+        closeOnTapOutside(ref, setOpen);
     }, [])
 
     return (

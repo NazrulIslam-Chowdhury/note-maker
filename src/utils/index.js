@@ -5,6 +5,8 @@ import sortData from "./sort";
 import deleteNote from "./deleteNote";
 import restoreNote from "./restoreNote";
 import emptyBin from "./emptyBin";
+import addToFavorite from "./addToFavorite";
+import closeOnTapOutside from "./closeOnTapOutside";
 
 export {
     Mode,
@@ -13,5 +15,7 @@ export {
     sortData,
     deleteNote,
     restoreNote,
-    emptyBin
+    emptyBin,
+    addToFavorite,
+    closeOnTapOutside
 }
