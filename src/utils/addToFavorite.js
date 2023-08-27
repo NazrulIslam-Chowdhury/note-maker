@@ -1,6 +1,6 @@
 import { toast } from "react-hot-toast";
 
-const addToFavorite = async (liked, setLiked, favorite, note) => {
+const addToFavorite = async (liked, setLiked, note) => {
     liked ? setLiked(false) : setLiked(true);
     const isFavorite = {
         isFavorite: liked ? false : true
@@ -13,11 +13,11 @@ const addToFavorite = async (liked, setLiked, favorite, note) => {
         body: JSON.stringify(isFavorite)
     })
     const res = await req.json();
-    if (favorite.isFavorite !== true && res.acknowledged) {
+    if (liked !== true && res.acknowledged) {
         toast.success('Marked as favorite')
-    } else {
+    } else (
         toast.success('Unmarked as favorite')
-    }
+    )
 }
 
 export default addToFavorite;

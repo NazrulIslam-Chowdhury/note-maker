@@ -1,13 +1,14 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { CiMenuKebab } from 'react-icons/ci';
-import { closeOnTapOutside, deleteNote, restoreNote } from '../../utils';
+import { deleteNote, restoreNote } from '../../utils';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../AuthProvider/AuthProvider';
 import { MdRestore } from 'react-icons/md';
+import { BiHeart, BiSolidHeart } from 'react-icons/bi';
 
 const GridView = ({ note, getNotes, getBinNotes, restore }) => {
     const { user } = useContext(AuthContext);
-    const { category, title, description, _id } = note;
+    const { category, title, description, _id, favorite } = note;
     const [open, setOpen] = useState(false);
     const ref = useRef();
 
@@ -17,21 +18,30 @@ const GridView = ({ note, getNotes, getBinNotes, restore }) => {
 
     // close the menu clicking outside
     useEffect(() => {
-        closeOnTapOutside(ref, setOpen);
+        let closeOnTap = (e) => {
+            if (!ref.current.contains(e.target)) {
+                setOpen(false);
+            }
+        };
+        document.addEventListener('mousedown', closeOnTap);
+
+        return () => {
+            document.removeEventListener('mousedown', closeOnTap)
+        }
     }, [])
 
     return (
         <div className='w-auto sm:w-[30rem] h-[20rem] bg-slate-100 hover:bg-sky-200 dark:bg-slate-800 dark:hover:bg-sky-400 dark:hover:bg-opacity-[0.5] dark:text-white dark:shadow-inner dark:shadow-white shadow-md shadow-black p-5 rounded-md space-y-3 transition-colors duration-[0.5s]  after:absolute after:bg-red-400 after:h-1 after:w-full after:rounded-lg after:bottom-0 after:left-0 bar relative'>
             <div className='flex justify-between items-center relative group'>
                 <h1 className='text-2xl font-semibold'><span className='text-slate-500 text-sm'>Category :</span> {category}</h1>
-                <div ref={ref}>
+                <div >
                     {
                         restore ?
                             <>
                                 <MdRestore className='h-6 w-6 cursor-pointer' onClick={() => deleteOnClick(_id)} />
                             </>
                             :
-                            <div >
+                            <div ref={ref}>
                                 <CiMenuKebab className='h-6 w-6 cursor-pointer' onClick={() => setOpen(!open)} />
                                 {
                                     open &&
@@ -54,6 +64,14 @@ const GridView = ({ note, getNotes, getBinNotes, restore }) => {
             </div>
             <h2 className='text-xl font-medium'><span className='text-slate-500 text-sm'>Title :</span> {title}</h2>
             <p><span className='text-slate-500 text-sm'>Description :</span> {description?.length > 100 ? description.slice(0, 100) + '...' : description}</p>
+            <div className='absolute bottom-3 right-3'>
+                {
+                    favorite?.isFavorite ?
+                        <BiSolidHeart className='text-red-500 w-7 h-7' />
+                        :
+                        <BiHeart className='w-7 h-7' />
+                }
+            </div>
         </div>
     )
 }

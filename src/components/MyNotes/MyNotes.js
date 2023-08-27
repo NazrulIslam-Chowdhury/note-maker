@@ -9,7 +9,7 @@ import { sortData } from '../../utils';
 
 const MyNotes = () => {
     const { user } = useContext(AuthContext);
-    const [viewGrid, setViewGrid] = useState(true);
+    const [viewGrid, setViewGrid] = useState(false);
     const [isAsc, setIsAsc] = useState(true);
     const [notes, setNotes] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -121,7 +121,7 @@ const MyNotes = () => {
                                 <table className='w-full shadow-md shadow-black'>
                                     <thead className=' bg-white dark:bg-slate-900 transition-colors duration-[0.5s]'>
                                         <tr>
-                                            <th></th>
+                                            <th className='text-xl font-medium dark:text-white py-5'>Favorite</th>
                                             <th className='text-xl font-medium dark:text-white py-5'>Description</th>
                                             <th className='text-xl font-medium dark:text-white py-5'>Title</th>
                                             <th className='text-xl font-medium dark:text-white py-5'>Category</th>
@@ -129,7 +129,7 @@ const MyNotes = () => {
                                         </tr>
                                     </thead>
                                     {
-                                        (search ? filteredNotes : records).map((note, idx) => <TableView note={note} key={note._id} idx={idx} getNotes={getNotes} />)
+                                        (search ? filteredNotes : records).map((note) => <TableView note={note} key={note._id} getNotes={getNotes} />)
                                     }
                                 </table>
                         }

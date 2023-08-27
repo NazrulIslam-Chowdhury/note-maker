@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from 'react';
 import { AiOutlineCloseSquare } from 'react-icons/ai';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
-import { closeOnTapOutside } from '../../utils';
 
 
 const Modal = ({ note, setModalOpen }) => {
@@ -12,7 +11,16 @@ const Modal = ({ note, setModalOpen }) => {
 
     // close the modal after clicking outside
     useEffect(() => {
-        closeOnTapOutside(ref, setModalOpen)
+        let closeOnTap = (e) => {
+            if (!ref.current.contains(e.target)) {
+                setModalOpen(false);
+            }
+        };
+        document.addEventListener('mousedown', closeOnTap);
+
+        return () => {
+            document.removeEventListener('mousedown', closeOnTap)
+        }
     }, [setModalOpen]);
 
     // update note
@@ -29,6 +37,7 @@ const Modal = ({ note, setModalOpen }) => {
             toast.success('Note Updated');
             setModalOpen(false)
         }
+        window.location.reload()
     }
 
     return (

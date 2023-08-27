@@ -1,26 +1,41 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { BiEdit, BiHeart, BiSolidHeart } from 'react-icons/bi';
 import { RiDownload2Line } from 'react-icons/ri';
 import { useLoaderData } from 'react-router-dom'
 import Modal from './Modal';
-import { addToFavorite, closeOnTapOutside } from '../../utils';
+import { addToFavorite } from '../../utils';
+import html2canvas from 'html2canvas';
+import { jsPDF } from 'jspdf';
 
 const NoteDescription = () => {
   const note = useLoaderData();
   const { category, title, description, image, favorite } = note;
-  const [liked, setLiked] = useState(favorite.isFavorite ? favorite.isFavorite : false);
-  const [showDownload, setShowDownload] = useState(false);
+  const [liked, setLiked] = useState(favorite?.isFavorite ? favorite.isFavorite : false);
   const [modalOpen, setModalOpen] = useState(false);
+  const pdfRef = useRef();
 
-  const ref = useRef();
 
-  // close the menu after clicking outside
-  useEffect(() => {
-    closeOnTapOutside(ref, setShowDownload);
-  }, [])
-
+  // add to favorite
   const addToFavoriteOnClick = async () => {
-    addToFavorite(liked, setLiked, favorite, note)
+    addToFavorite(liked, setLiked, note)
+  }
+
+  // download as pdf
+  const downloadPdf = () => {
+    const input = pdfRef.current;
+    html2canvas(input).then((canvas) => {
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('landscape', 'px', 'a4', true);
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+      const imgWidth = canvas.width;
+      const imgHeight = canvas.height;
+      const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
+      const imgX = (pdfWidth - imgHeight * ratio) / 7;
+      const imgY = 15;
+      pdf.addImage(imgData, 'PNG', imgX, imgY, imgWidth * ratio, imgHeight * ratio);
+      pdf.save(`${title}.pdf`);
+    })
   }
 
   return (
@@ -33,20 +48,12 @@ const NoteDescription = () => {
                 <BiEdit className='w-7 h-7' onClick={() => setModalOpen(true)} />
               </li>
 
-              <li ref={ref} className='hover:bg-slate-700 hover:text-white px-3 py-2 transition-colors duration-[0.5s] cursor-pointer rounded relative'>
+              <li
+                className='hover:bg-slate-700 hover:text-white px-3 py-2 transition-colors duration-[0.5s] cursor-pointer rounded relative'>
                 <RiDownload2Line
                   className='w-7 h-7'
-                  onClick={() => setShowDownload(!showDownload)}
+                  onClick={downloadPdf}
                 />
-                {
-                  showDownload &&
-                  <div className='absolute bg-slate-300 text-slate-700 dark:text-slate-400 dark:bg-slate-700 p-3 rounded-md'>
-                    <ul >
-                      <li className='whitespace-nowrap hover:bg-slate-800 hover:text-white transition-colors duration-[0.5s] cursor-pointer px-2 py-1 rounded-md'>As image</li>
-                      <li className='whitespace-nowrap hover:bg-slate-800 hover:text-white transition-colors duration-[0.5s] cursor-pointer px-2 py-1 rounded-md'>As pdf</li>
-                    </ul>
-                  </div>
-                }
               </li>
               <li
                 onClick={addToFavoriteOnClick}
@@ -58,18 +65,20 @@ const NoteDescription = () => {
                 }
               </li>
             </ul>
-            <h1 className='sm:text-2xl text-base font-semibold'><span className='text-slate-500 sm:text-sm text-xs'>Category :</span> {category}</h1>
-
           </div>
-          <h2 className='text-xl font-medium'><span className='text-slate-500 text-sm'>Title :</span> {title}</h2>
-          <p className=''><span className='text-slate-500 text-sm'>Description :</span> {description}</p>
-          <img
-            src={image}
-            alt={image === null ? 'No image to show' : { title }}
-            className='w-[300px] h-[300px] object-cover'
-          />
+          <div ref={pdfRef} className='group'>
+            <h1 className='sm:text-2xl text-base dark:text-slate-400 font-semibold group-hover:text-white transition-colors duration-[0.5]'><span className='text-slate-500 sm:text-sm text-xs'>Category :</span> {category}</h1>
+            <h2 className='text-xl font-medium dark:text-slate-400 group-hover:text-white transition-colors duration-[0.5]'><span className='text-slate-500 text-sm'>Title :</span> {title}</h2>
+            <p className='dark:text-slate-400 group-hover:text-white transition-colors duration-[0.5]'><span className='text-slate-500 text-sm'>Description :</span> {description}</p>
+            <img
+              src={image}
+              alt={image === null ? 'No image to show' : { title }}
+              className='w-[300px] h-[300px] object-cover mt-10 dark:text-slate-400'
+            />
+          </div>
         </div>
       </div>
+
       {/*modal */}
       {
         modalOpen &&
