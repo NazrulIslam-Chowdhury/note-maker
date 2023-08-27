@@ -1,35 +1,18 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react'
-import { AuthContext } from '../../AuthProvider/AuthProvider';
-import { emptyBin, sortData, useTitle } from '../../utils';
+import React, { useState } from 'react'
+import { Link, useLoaderData } from 'react-router-dom'
+import { sortData } from '../../utils';
 import { FcAlphabeticalSortingAz, FcAlphabeticalSortingZa } from 'react-icons/fc';
 import { TfiViewGrid, TfiViewList } from 'react-icons/tfi';
-import { MdOutlineDeleteForever } from 'react-icons/md';
 import GridView from '../../components/MyNotes/GridView';
 import TableView from '../../components/MyNotes/TableView';
-import { Link } from 'react-router-dom';
 
-const NoteBin = () => {
-    const { user } = useContext(AuthContext);
-    const [notes, setNotes] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
+const CategoryNotebooks = () => {
+    const categoryNotes = useLoaderData();
+    const [notes, setNotes] = useState(categoryNotes);
+    const [categoryNote, setCategoryNote] = useState(true);
     const [isAsc, setIsAsc] = useState(true);
     const [viewGrid, setViewGrid] = useState(false);
-    const [restore, setRestore] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
-
-    useTitle('Bin')
-
-    // load bin data
-    const getBinNotes = useCallback(() => {
-        fetch(`http://localhost:5000/binNotes?email=${user?.email}`)
-            .then(res => res.json())
-            .then(data => setNotes(data))
-    }, [user?.email]);
-
-    useEffect(() => {
-        getBinNotes();
-        setIsLoading(false);
-    }, [getBinNotes]);
 
     // pagination
     const recordsPerPage = 6;
@@ -57,12 +40,6 @@ const NoteBin = () => {
     const sortOnClick = () => {
         sortData(notes, setNotes, isAsc, setIsAsc)
     };
-
-    const deleteAll = () => {
-        emptyBin(user, getBinNotes, notes);
-    }
-
-    if (isLoading) return <h1 className='absolute left-[52rem] top-[20rem] z-10'>Loading...</h1>
 
     return (
         <div className='left-24 sm:left-[7rem] top-2 sm:top-8 absolute sm:w-[89.5vw] w-[72vw] space-y-4'>
@@ -93,10 +70,6 @@ const NoteBin = () => {
                         }
                     </div>
                 </div>
-
-                <div>
-                    <MdOutlineDeleteForever className='w-10 h-10 dark:text-slate-200 cursor-pointer' title='Delete All' onClick={deleteAll} />
-                </div>
             </div>
 
             {/* view data*/}
@@ -107,7 +80,7 @@ const NoteBin = () => {
                             !viewGrid ?
                                 <div className='flex flex-col sm:flex-row flex-wrap gap-5'>
                                     {
-                                        records.map((note) => <GridView note={note} key={note._id} getBinNotes={getBinNotes} restore={restore} />
+                                        records.map((note) => <GridView note={note} key={note._id} categoryNote={categoryNote} />
                                         )
                                     }
                                 </div>
@@ -123,13 +96,13 @@ const NoteBin = () => {
                                         </tr>
                                     </thead>
                                     {
-                                        records.map((note, idx) => <TableView note={note} key={note._id} idx={idx} getBinNotes={getBinNotes} restore={restore} />)
+                                        records.map((note, idx) => <TableView note={note} key={note._id} idx={idx} categoryNote={categoryNote} />)
                                     }
                                 </table>
                         }
                     </div>
                     :
-                    <p className='text-center text-4xl font-semibold dark:text-slate-200 mt-10'>Bin is empty</p>
+                    <p className='text-center text-4xl font-semibold dark:text-slate-200 mt-10'>Empty</p>
             }
 
 
@@ -166,4 +139,4 @@ const NoteBin = () => {
     )
 }
 
-export default NoteBin
+export default CategoryNotebooks

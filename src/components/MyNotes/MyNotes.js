@@ -5,7 +5,7 @@ import { AuthContext } from '../../AuthProvider/AuthProvider';
 import { Link } from 'react-router-dom';
 import GridView from './GridView';
 import TableView from './TableView';
-import { sortData } from '../../utils';
+import { sortData, useTitle } from '../../utils';
 
 const MyNotes = () => {
     const { user } = useContext(AuthContext);
@@ -15,6 +15,8 @@ const MyNotes = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [search, setSearch] = useState();
     const [currentPage, setCurrentPage] = useState(1);
+
+    useTitle('My-notes')
 
     // pagination
     const recordsPerPage = 6;

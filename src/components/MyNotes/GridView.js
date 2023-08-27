@@ -6,7 +6,7 @@ import { AuthContext } from '../../AuthProvider/AuthProvider';
 import { MdRestore } from 'react-icons/md';
 import { BiHeart, BiSolidHeart } from 'react-icons/bi';
 
-const GridView = ({ note, getNotes, getBinNotes, restore }) => {
+const GridView = ({ note, getNotes, getBinNotes, restore, categoryNote }) => {
     const { user } = useContext(AuthContext);
     const { category, title, description, _id, favorite } = note;
     const [open, setOpen] = useState(false);
@@ -34,14 +34,14 @@ const GridView = ({ note, getNotes, getBinNotes, restore }) => {
         <div className='w-auto sm:w-[30rem] h-[20rem] bg-slate-100 hover:bg-sky-200 dark:bg-slate-800 dark:hover:bg-sky-400 dark:hover:bg-opacity-[0.5] dark:text-white dark:shadow-inner dark:shadow-white shadow-md shadow-black p-5 rounded-md space-y-3 transition-colors duration-[0.5s]  after:absolute after:bg-red-400 after:h-1 after:w-full after:rounded-lg after:bottom-0 after:left-0 bar relative'>
             <div className='flex justify-between items-center relative group'>
                 <h1 className='text-2xl font-semibold'><span className='text-slate-500 text-sm'>Category :</span> {category}</h1>
-                <div >
+                <div ref={ref}>
                     {
                         restore ?
                             <>
                                 <MdRestore className='h-6 w-6 cursor-pointer' onClick={() => deleteOnClick(_id)} />
                             </>
                             :
-                            <div ref={ref}>
+                            <div>
                                 <CiMenuKebab className='h-6 w-6 cursor-pointer' onClick={() => setOpen(!open)} />
                                 {
                                     open &&
@@ -55,7 +55,7 @@ const GridView = ({ note, getNotes, getBinNotes, restore }) => {
                                         </li>
                                         <li
                                             onClick={() => deleteOnClick(_id)}
-                                            className='hover:bg-slate-800 hover:text-white px-3 py-2 transition-colors duration-[0.5s] cursor-pointer rounded'>Delete</li>
+                                            className={`${categoryNote ? 'hidden' : 'flex'} hover:bg-slate-800 hover:text-white px-3 py-2 transition-colors duration-[0.5s] cursor-pointer rounded`}>Delete</li>
                                     </ul>
                                 }
                             </div>

@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import { BiHeart, BiSolidHeart } from 'react-icons/bi';
 // import { Link } from 'react-router-dom';
 
-const TableView = ({ note, idx, getNotes, getBinNotes, restore }) => {
+const TableView = ({ note, getNotes, getBinNotes, restore, categoryNote }) => {
     const { user } = useContext(AuthContext);
     const { description, title, category, _id, favorite } = note;
     const [open, setOpen] = useState(false);
@@ -68,7 +68,7 @@ const TableView = ({ note, idx, getNotes, getBinNotes, restore }) => {
                                         </li>
                                         <li
                                             onClick={() => deleteOnClick(_id)}
-                                            className='hover:bg-slate-800 hover:text-white px-3 py-2 transition-colors duration-[0.5s] cursor-pointer rounded'>Delete</li>
+                                            className={`${categoryNote ? 'hidden' : 'flex'} hover:bg-slate-800 hover:text-white px-3 py-2 transition-colors duration-[0.5s] cursor-pointer rounded`}>Delete</li>
                                     </ul>
                                 }
                             </div>

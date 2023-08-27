@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import Main from "../layouts";
 import { MyNotes } from "../components";
-import { Login, SignUp, AddNote, NoteDescription, NoteBin } from "../pages";
+import { Login, SignUp, AddNote, NoteDescription, NoteBin, Notebooks, CategoryNotebooks } from "../pages";
 
 const router = createBrowserRouter([
     {
@@ -36,6 +36,17 @@ const router = createBrowserRouter([
             {
                 path: '/note-bin',
                 element: <NoteBin />
+            },
+            {
+                path: '/notebooks',
+                element: <Notebooks />
+            },
+            {
+                path: '/category-notebooks/:name/:email',
+                loader: async ({ params }) => {
+                    return fetch(`http://localhost:5000/categoryNotebooks/${params.name}/${params.email}`)
+                },
+                element: <CategoryNotebooks />
             },
         ]
     }
