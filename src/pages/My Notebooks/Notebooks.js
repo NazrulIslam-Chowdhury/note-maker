@@ -10,6 +10,7 @@ const Notebooks = () => {
     const [isLoading, setIsLoading] = useState(true);
     useTitle('Notebooks')
 
+    // get all notebooks
     const myNotebooks = useCallback(
         async () => {
             const req = await fetch(`http://localhost:5000/categories?email=${user?.email}`);
@@ -23,6 +24,7 @@ const Notebooks = () => {
         setIsLoading(false)
     }, [myNotebooks])
 
+    // filter out the duplicate categories
     const uniqueCategories = [...new Set(notebooks.map((notebook) => notebook.category))];
 
     if (isLoading) return <h1 className='absolute left-[52rem] top-[20rem] z-10'>Loading...</h1>

@@ -1,7 +1,16 @@
 import { createBrowserRouter } from "react-router-dom";
 import Main from "../layouts";
 import { MyNotes } from "../components";
-import { Login, SignUp, AddNote, NoteDescription, NoteBin, Notebooks, CategoryNotebooks } from "../pages";
+import {
+    Login,
+    SignUp,
+    AddNote,
+    NoteDescription,
+    NoteBin,
+    Notebooks,
+    CategoryNotebooks,
+    Favorite
+} from "../pages";
 
 const router = createBrowserRouter([
     {
@@ -32,6 +41,10 @@ const router = createBrowserRouter([
                     )
                 },
                 element: <NoteDescription />
+            },
+            {
+                path: '/favorite-notes',
+                element: <Favorite />
             },
             {
                 path: '/note-bin',

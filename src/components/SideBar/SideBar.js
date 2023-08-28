@@ -80,6 +80,7 @@ const SideBar = () => {
                         <NavLink
                             to='/add-note'
                             className={`${({ isActive }) => isActive ? '' : ''} flex gap-4 items-center hover:bg-slate-800 bg-slate-950 px-3 py-2 rounded transition-colors duration-[0.5s]`}
+                            title={close ? 'Add a note' : ''}
                         >
                             <BiPlus className='w-7 h-6 text-white' />
                             <span className={`text-slate-300 dark:text-slate-400 text-base sm:text-lg font-medium ${close && 'hidden'} `}>Add a note</span>
@@ -90,6 +91,7 @@ const SideBar = () => {
                         <NavLink
                             to='/'
                             className={`flex gap-4 items-center ${({ isActive }) => isActive ? '' : ''}  hover:bg-slate-200 dark:hover:bg-slate-800 px-3 py-2 rounded transition-colors duration-[0.5s]`}
+                            title={close ? 'My notes' : ''}
                         >
                             <BiHome className='w-7 h-6 dark:text-white' />
                             <span className={`text-slate-500 dark:text-slate-400 text-base sm:text-lg font-medium ${close && 'hidden'} `}>My Notes</span>
@@ -99,21 +101,31 @@ const SideBar = () => {
                         <NavLink
                             to='/notebooks'
                             className='flex gap-4 items-center hover:bg-slate-200 dark:hover:bg-slate-800 px-3 py-2 rounded transition-colors duration-[0.5s] cursor-pointer'
+                            title={close ? 'Notebooks' : ''}
                         >
                             <BiCategory className='w-7 h-6 dark:text-white' />
                             <span className={`text-slate-500 dark:text-slate-400 text-base sm:text-lg font-medium ${close && 'hidden'}`}>Notebooks</span>
                         </NavLink>
 
                     </li>
-                    <li className='flex gap-4 items-center hover:bg-slate-200 dark:hover:bg-slate-800 px-3 py-2 cursor-pointer rounded transition-colors duration-[0.5s]'>
-                        <AiOutlineHeart className='w-7 h-6 dark:text-white' />
-                        <span className={`text-slate-500 dark:text-slate-400 text-base sm:text-lg font-medium ${close && 'hidden'}`}>
-                            Likes</span>
+                    <li>
+                        <NavLink
+                            to='/favorite-notes'
+                            className='flex gap-4 items-center hover:bg-slate-200 dark:hover:bg-slate-800 px-3 py-2 cursor-pointer rounded transition-colors duration-[0.5s]'
+                            title={close ? 'Favorite' : ''}
+                        >
+                            <AiOutlineHeart className='w-7 h-6 dark:text-white' />
+                            <span className={`text-slate-500 dark:text-slate-400 text-base sm:text-lg font-medium ${close && 'hidden'}`}>
+                                Favorite
+                            </span>
+                        </NavLink>
                     </li>
                     <li>
                         <NavLink
                             to='/note-bin'
-                            className={`${({ isActive }) => isActive ? '' : ''} flex gap-4 items-center hover:bg-slate-200 dark:hover:bg-slate-800 px-3 py-2 cursor-pointer rounded transition-colors duration-[0.5s]`}>
+                            className={`${({ isActive }) => isActive ? '' : ''} flex gap-4 items-center hover:bg-slate-200 dark:hover:bg-slate-800 px-3 py-2 cursor-pointer rounded transition-colors duration-[0.5s]`}
+                            title={close ? 'Bin' : ''}
+                        >
                             <BiTrash className='w-7 h-6 dark:text-white' />
                             <span className={`text-slate-500 dark:text-slate-400 text-base sm:text-lg font-medium ${close && 'hidden'}`}>Bin</span>
                         </NavLink>

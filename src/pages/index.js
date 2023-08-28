@@ -5,6 +5,7 @@ import NoteDescription from "./NoteDescription/NoteDescription";
 import NoteBin from "./NoteBin/NoteBin";
 import Notebooks from "./My Notebooks/Notebooks";
 import CategoryNotebooks from "./Category Notebooks/CategoryNotebooks";
+import Favorite from "./Favorite/Favorite";
 
 export {
     SignUp,
@@ -13,5 +14,6 @@ export {
     NoteDescription,
     NoteBin,
     Notebooks,
-    CategoryNotebooks
+    CategoryNotebooks,
+    Favorite
 }
