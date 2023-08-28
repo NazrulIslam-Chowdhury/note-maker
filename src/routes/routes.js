@@ -11,6 +11,7 @@ import {
     CategoryNotebooks,
     Favorite
 } from "../pages";
+import PrivateRoute from "./PrivateRoute";
 
 const router = createBrowserRouter([
     {
@@ -31,7 +32,7 @@ const router = createBrowserRouter([
             },
             {
                 path: '/add-note',
-                element: <AddNote />
+                element: <PrivateRoute><AddNote /></PrivateRoute>
             },
             {
                 path: '/note-description/:id',

@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { AiOutlineEye, AiOutlineEyeInvisible, AiFillGoogleCircle } from 'react-icons/ai';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../AuthProvider/AuthProvider';
 import { toast } from 'react-hot-toast';
 import { useTitle } from '../../utils';
@@ -9,9 +9,12 @@ import { useTitle } from '../../utils';
 const Login = () => {
     const { loading, login, loginWithGoogle } = useContext(AuthContext);
     const [showPass, setShowPass] = useState(false);
-
     const { register, handleSubmit, reset } = useForm();
     const navigate = useNavigate();
+    const location = useLocation();
+
+    // after login locate to desire path
+    const from = location.state?.from?.pathname || '/';
 
     useTitle('Login');
 
@@ -23,7 +26,7 @@ const Login = () => {
                 toast.success('Login successfully');
 
                 // navigate to home page after login
-                navigate('/');
+                navigate(from, { state: true });
 
                 // reset form
                 reset();
@@ -32,7 +35,6 @@ const Login = () => {
     }
 
     // login with google
-
     const handleGoogleLogin = () => {
         loginWithGoogle()
             .then(result => {
