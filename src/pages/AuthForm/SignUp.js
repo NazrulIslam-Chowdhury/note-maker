@@ -11,7 +11,8 @@ const SignUp = () => {
     const {
         createUserWithEmailAndPass,
         updateUser,
-        loading
+        loading,
+        verifyEmail
     } = useContext(AuthContext);
 
     useTitle('Sign-up');
@@ -30,10 +31,13 @@ const SignUp = () => {
 
         // create user 
         createUserWithEmailAndPass(data.email, data.password)
-            .then(result => {
+            .then(() => {
                 // console.log(result);
-                const user = result.user;
-                toast.success(`User is created`);
+                // verify email
+                verifyEmail()
+                    .then(() => {
+                        alert('Check your email and verify your email to login')
+                    })
                 const userInfo = {
                     displayName: (firstName + ' ' + lastName),
                     photoURL: avatarURL
@@ -48,7 +52,7 @@ const SignUp = () => {
             .catch(error => alert(error))
 
         // navigate the route to home page
-        navigate('/');
+        navigate('/login');
 
         // reset the form
         reset();

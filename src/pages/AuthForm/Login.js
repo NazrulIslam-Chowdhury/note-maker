@@ -7,7 +7,12 @@ import { toast } from 'react-hot-toast';
 import { useTitle } from '../../utils';
 
 const Login = () => {
-    const { loading, login, loginWithGoogle } = useContext(AuthContext);
+    const {
+        loading,
+        setLoading,
+        login,
+        loginWithGoogle
+    } = useContext(AuthContext);
     const [showPass, setShowPass] = useState(false);
     const { register, handleSubmit, reset } = useForm();
     const navigate = useNavigate();
@@ -31,7 +36,10 @@ const Login = () => {
                 // reset form
                 reset();
             })
-            .catch(error => window.alert(error));
+            .catch(error => {
+                window.alert(error)
+                setLoading(false)
+            });
     }
 
     // login with google
@@ -41,11 +49,15 @@ const Login = () => {
                 const user = result.user;
                 // console.log(user)
                 toast.success(`${user.displayName} Logged in successfully`)
-                navigate('/');
+                navigate(from, { state: true });
 
             })
-            .catch(error => window.alert(error))
+            .catch(error => {
+                window.alert(error)
+                setLoading(false)
+            })
     }
+
 
     return (
         <div className='bg-white dark:bg-cyan-400 shadow-black shadow-2xl dark:shadow-cyan-400 rounded p-6 left-24 sm:left-[36rem] sm:top-12 top-20 space-y-4 absolute sm:w-[450px] w-auto'>
@@ -118,7 +130,7 @@ const Login = () => {
 
             <div className=''>
                 <p>
-                    Don't have an account?
+                    Don't have an account ?
                     <Link
                         to='/sign-up'
                         className='dark:text-slate-200 text-slate-600 font-medium text-lg cursor-pointer'

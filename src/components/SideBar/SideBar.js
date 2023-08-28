@@ -50,13 +50,13 @@ const SideBar = () => {
                 </div>
 
                 {
-                    user?.uid &&
+                    user?.emailVerified && user?.uid &&
                     <div className='group overflow-hidden'>
                         <div className='flex gap-4 items-center cursor-pointer'>
                             <img
                                 src={user?.photoURL}
                                 alt={user?.displayName}
-                                className='flex items-center w-20 h-16 px-3 py-2 object-fit'
+                                className='flex items-center w-26 h-12 px-3 py-2 object-fit rounded-full'
                             />
                             <p className={`text-sm ${close && 'hidden'} dark:text-white`}>{user?.displayName}</p>
                             <BiChevronDown className='h-8 w-8 dark:text-white' />
