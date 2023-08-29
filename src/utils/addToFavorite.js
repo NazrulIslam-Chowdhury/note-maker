@@ -5,7 +5,7 @@ const addToFavorite = async (liked, setLiked, note) => {
     const isFavorite = {
         isFavorite: liked ? false : true
     }
-    const req = await fetch(`http://localhost:5000/notesAll/favorite/${note._id}`, {
+    const req = await fetch(`https://note-maker-server.vercel.app/notesAll/favorite/${note._id}`, {
         method: 'PUT',
         headers: {
             'content-type': 'application/json'

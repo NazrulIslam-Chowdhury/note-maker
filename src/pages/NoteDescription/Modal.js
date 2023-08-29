@@ -25,7 +25,7 @@ const Modal = ({ note, setModalOpen }) => {
 
     // update note
     const updateOnClick = async (data) => {
-        const req = await fetch(`http://localhost:5000/notesAll/${note._id}`, {
+        const req = await fetch(`https://note-maker-server.vercel.app/notesAll/${note._id}`, {
             method: "PUT",
             headers: {
                 'content-type': 'application/json'

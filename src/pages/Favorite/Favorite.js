@@ -19,7 +19,7 @@ const Favorite = () => {
 
     // get all the notes that has favorite true
     const getFavoriteNotes = useCallback(async () => {
-        const res = await fetch(`http://localhost:5000/favorite-notes?email=${user?.email}`);
+        const res = await fetch(`https://note-maker-server.vercel.app/favorite-notes?email=${user?.email}`);
         const data = await res.json();
         setNotes(data);
     }, [user?.email]);

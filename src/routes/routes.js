@@ -38,7 +38,7 @@ const router = createBrowserRouter([
                 path: '/note-description/:id',
                 loader: ({ params }) => {
                     return (
-                        fetch(`http://localhost:5000/notesAll/${params.id}`)
+                        fetch(`https://note-maker-server.vercel.app/notesAll/${params.id}`)
                     )
                 },
                 element: <NoteDescription />
@@ -58,7 +58,7 @@ const router = createBrowserRouter([
             {
                 path: '/category-notebooks/:name/:email',
                 loader: async ({ params }) => {
-                    return fetch(`http://localhost:5000/categoryNotebooks/${params.name}/${params.email}`)
+                    return fetch(`https://note-maker-server.vercel.app/categoryNotebooks/${params.name}/${params.email}`)
                 },
                 element: <CategoryNotebooks />
             },
