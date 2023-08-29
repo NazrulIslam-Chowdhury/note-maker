@@ -99,7 +99,7 @@ const SignUp = () => {
                             type="email"
                             placeholder='Email'
                             {...register('email')}
-                            className='p-3 outline-slate-400 caret-slate-400 min-w-full '
+                            className='p-3 outline-slate-400 caret-slate-400 w-auto '
                             required
                         />
                     </div>
@@ -119,7 +119,7 @@ const SignUp = () => {
                             type={showPass ? 'text' : 'password'}
                             placeholder='Password'
                             {...register('password', { minLength: 10 })}
-                            className='p-3 outline-slate-400 caret-slate-400 min-w-full'
+                            className='p-3 outline-slate-400 caret-slate-400 w-auto'
                             required
                         />
                         <div
@@ -158,7 +158,7 @@ const SignUp = () => {
                         }</button>
                     </div>
                 </form>
-                <div className=''>
+                <div>
                     <p>
                         Already have an account?
                         <Link

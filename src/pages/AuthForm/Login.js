@@ -75,7 +75,7 @@ const Login = () => {
                         name='email'
                         placeholder='Email'
                         {...register('email')}
-                        className='p-3 outline-slate-400 caret-slate-400 min-w-full '
+                        className='p-3 outline-slate-400 caret-slate-400 w-auto'
                         required
                     />
                 </div>
@@ -87,7 +87,7 @@ const Login = () => {
                         name='password'
                         placeholder='Password'
                         {...register('password', { minLength: 10 })}
-                        className='p-3 outline-slate-400 caret-slate-400 min-w-full'
+                        className='p-3 outline-slate-400 caret-slate-400 w-auto'
                         required
                     />
                     <div
