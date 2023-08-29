@@ -41,7 +41,7 @@ const Modal = ({ note, setModalOpen }) => {
     }
 
     return (
-        <div ref={ref} className='bg-slate-300 dark:bg-slate-500 p-5 top-20 sm:left-[38rem] left-[3.5rem] w-auto sm:w-[32rem] h-auto sm:h-[37rem] absolute space-y-5 rounded-md z-[1000] shadow-xl shadow-black'>
+        <div ref={ref} className='bg-slate-300 dark:bg-slate-500 p-5 top-20 sm:left-[38rem] left-0 w-full sm:w-[32rem] h-auto sm:h-[37rem] absolute space-y-5 rounded-md z-[1000] shadow-xl shadow-black'>
             <div className='float-right'>
                 <AiOutlineCloseSquare
                     onClick={() => setModalOpen(false)}

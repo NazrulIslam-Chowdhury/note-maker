@@ -60,7 +60,7 @@ const Login = () => {
 
 
     return (
-        <div className='bg-white dark:bg-cyan-400 shadow-black shadow-2xl dark:shadow-cyan-400 rounded p-6 left-24 sm:left-[36rem] sm:top-12 top-20 space-y-4 absolute sm:w-[450px] w-auto'>
+        <div className='bg-white dark:bg-cyan-400 shadow-black shadow-2xl dark:shadow-cyan-400 rounded p-6 left-20 sm:left-[36rem] sm:top-12 top-20 space-y-4 absolute sm:w-[450px] w-auto'>
             <p className='text-xl dark:text-white text-slate-800 font-semibold'>
                 Login
             </p>

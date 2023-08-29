@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { AuthContext } from '../../AuthProvider/AuthProvider';
 import { useTitle } from '../../utils';
-import { toast } from 'react-hot-toast';
+
 
 
 const SignUp = () => {
@@ -60,7 +60,7 @@ const SignUp = () => {
     // console.log(errors)
 
     return (
-        <div className='bg-white dark:bg-cyan-400 shadow-black shadow-2xl dark:shadow-cyan-400 rounded p-6 absolute left-24 sm:left-[34rem] sm:top-12 top-20'>
+        <div className='bg-white dark:bg-cyan-400 shadow-black shadow-2xl dark:shadow-cyan-400 rounded p-6 absolute left-20 sm:left-[34rem] sm:top-12 top-20'>
             <div className='space-y-4'>
                 <p className='text-xl dark:text-white text-slate-800 font-semibold'>
                     Sign Up
