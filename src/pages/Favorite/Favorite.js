@@ -107,7 +107,7 @@ const Favorite = () => {
                                                     className='bg-black shadow-inner shadow-white rounded-full p-3'
                                                     to={`/note-description/${note._id}`}
                                                 >
-                                                    <AiOutlineEye className='h-6 w-6' />
+                                                    <AiOutlineEye className='h-6 w-6 text-white' />
                                                 </Link>
 
                                             </div>
@@ -131,7 +131,7 @@ const Favorite = () => {
                                         </tr>
                                     </thead>
                                     {
-                                        records.map((note, idx) => <tbody key={note._id} className='bg-slate-100 hover:bg-sky-200 dark:bg-slate-800 dark:hover:bg-sky-400 dark:hover:bg-opacity-[0.5] dark:text-white dark:shadow-inner dark:shadow-white rounded-md transition-colors duration-[0.5s] w-[100%] relative'>
+                                        records.map((note) => <tbody key={note._id} className='bg-slate-100 hover:bg-sky-200 dark:bg-slate-800 dark:hover:bg-sky-400 dark:hover:bg-opacity-[0.5] dark:text-white dark:shadow-inner dark:shadow-white rounded-md transition-colors duration-[0.5s] w-[100%] relative'>
                                             <tr>
                                                 <th className='px-5 py-7'>
                                                     <BiSolidHeart className='text-red-500 w-7 h-7' />
