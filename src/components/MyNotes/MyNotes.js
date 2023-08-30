@@ -125,6 +125,7 @@ const MyNotes = () => {
                                         <tr>
                                             <th className='text-xl font-medium dark:text-white py-5'>Favorite</th>
                                             <th className='text-xl font-medium dark:text-white py-5'>Description</th>
+                                            <th className='text-xl font-medium dark:text-white py-5'>Created/Deleted</th>
                                             <th className='text-xl font-medium dark:text-white py-5'>Title</th>
                                             <th className='text-xl font-medium dark:text-white py-5'>Category</th>
                                             <th></th>

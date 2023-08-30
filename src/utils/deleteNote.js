@@ -1,3 +1,4 @@
+import moment from "moment";
 import { toast } from "react-hot-toast";
 
 
@@ -6,13 +7,15 @@ const deleteNote = async (id, getNotes, note, user) => {
 
     const proceed = window.confirm('Are you want to delete this note?')
     if (proceed) {
+        const time = moment().format('MMMM Do YYYY, h:mm:ss a')
         // after deleting the note move to bin
         const binNote = {
             category: category,
             title: title,
             description: description,
             image: image,
-            email: user?.email
+            email: user?.email,
+            deleted: time
         }
 
         const req = await fetch('https://note-maker-server.vercel.app/binNotes', {

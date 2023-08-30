@@ -1,5 +1,5 @@
 import { toast } from "react-hot-toast";
-
+import moment from 'moment';
 
 const addNote = async (data, setIsLoading, user, image_hosting_url) => {
     setIsLoading(true);
@@ -31,13 +31,15 @@ const addNote = async (data, setIsLoading, user, image_hosting_url) => {
         alert(err);
     };
 
+    const time = moment().format('MMMM Do YYYY, h:mm:ss a');
 
     const singleNote = {
         category: category,
         title: title,
         description: description,
         image: image ? image : null,
-        email: user?.email
+        email: user?.email,
+        created: time
     }
 
     try {

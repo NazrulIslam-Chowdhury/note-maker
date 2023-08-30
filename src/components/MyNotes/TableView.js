@@ -9,7 +9,7 @@ import { BiHeart, BiSolidHeart } from 'react-icons/bi';
 
 const TableView = ({ note, getNotes, getBinNotes, restore, categoryNote }) => {
     const { user } = useContext(AuthContext);
-    const { description, title, category, _id, favorite } = note;
+    const { description, title, category, _id, favorite, created, deleted } = note;
     const [open, setOpen] = useState(false);
     const ref = useRef();
 
@@ -43,7 +43,9 @@ const TableView = ({ note, getNotes, getBinNotes, restore, categoryNote }) => {
                     }
                 </th>
 
-                <td className='px-5 py-7'>{description?.length > 50 ? description.slice(0, 51) + '...' : description}
+                <td className='px-5 py-7'>{description?.length > 25 ? description.slice(0, 26) + '...' : description}
+                </td>
+                <td className='px-5 py-7'>{created ? created : deleted}
                 </td>
                 <td className='px-5 py-7'>{title}</td>
                 <td className='px-5 py-7'>{category}</td>

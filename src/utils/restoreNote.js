@@ -1,15 +1,18 @@
+import moment from "moment";
 import { toast } from "react-hot-toast";
 
 const restoreNote = async (id, note, user, getBinNotes) => {
     const { category, title, description, image } = note;
 
+    const time = moment().format('MMMM Do YYYY, h:mm:ss a');
     // after deleting the note move to all note
     const restoreNote = {
         category: category,
         title: title,
         description: description,
         image: image,
-        email: user?.email
+        email: user?.email,
+        created: time
     }
 
     const req = await fetch('https://note-maker-server.vercel.app/notes', {

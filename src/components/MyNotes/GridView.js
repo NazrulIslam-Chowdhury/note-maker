@@ -8,7 +8,7 @@ import { BiHeart, BiSolidHeart } from 'react-icons/bi';
 
 const GridView = ({ note, getNotes, getBinNotes, restore, categoryNote }) => {
     const { user } = useContext(AuthContext);
-    const { category, title, description, _id, favorite } = note;
+    const { category, title, description, _id, favorite, created, deleted } = note;
     const [open, setOpen] = useState(false);
     const ref = useRef();
 
@@ -64,13 +64,16 @@ const GridView = ({ note, getNotes, getBinNotes, restore, categoryNote }) => {
             </div>
             <h2 className='text-xl font-medium'><span className='text-slate-500 text-sm'>Title :</span> {title}</h2>
             <p><span className='text-slate-500 text-sm'>Description :</span> {description?.length > 100 ? description.slice(0, 100) + '...' : description}</p>
-            <div className='absolute bottom-3 right-3'>
-                {
-                    favorite?.isFavorite ?
-                        <BiSolidHeart className='text-red-500 w-7 h-7' />
-                        :
-                        <BiHeart className='w-7 h-7' />
-                }
+            <div>
+                <p className='text-red-500 text-sm absolute left-3 bottom-3'>{created ? created : deleted}</p>
+                <div className='absolute right-3 bottom-3'>
+                    {
+                        favorite?.isFavorite ?
+                            <BiSolidHeart className='text-red-500 w-7 h-7' />
+                            :
+                            <BiHeart className='w-7 h-7' />
+                    }
+                </div>
             </div>
         </div>
     )
