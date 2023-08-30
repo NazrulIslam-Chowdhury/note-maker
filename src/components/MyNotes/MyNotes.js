@@ -1,6 +1,7 @@
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { FcAlphabeticalSortingAz, FcAlphabeticalSortingZa } from 'react-icons/fc';
 import { TfiViewGrid, TfiViewList } from 'react-icons/tfi';
+import { BsSearch } from 'react-icons/bs';
 import { AuthContext } from '../../AuthProvider/AuthProvider';
 import { Link } from 'react-router-dom';
 import GridView from './GridView';
@@ -70,7 +71,7 @@ const MyNotes = () => {
     return (
         <div className='left-24 sm:left-[7rem] top-2 sm:top-8 absolute sm:w-[89.5vw] w-[72vw] space-y-4 '>
             <div className='flex sm:grid sm:grid-cols-4 gap-2'>
-                <div className='flex sm:col-span-3'>
+                <div className='flex sm:col-span-3 relative'>
                     <input
                         type="search"
                         value={search}
@@ -78,6 +79,7 @@ const MyNotes = () => {
                         placeholder='Search by title'
                         className='w-full px-3 py-2 sm:px-5 sm:py-3 bg-slate-100 text-slate-600 dark:text-slate-200 dark:bg-slate-800 transition-colors duration-[0.5s] rounded-md sm:text-xl border-2 border-solid border-slate-400 outline-slate-400 caret-slate-400'
                     />
+                    <BsSearch className='absolute w-7 h-7 right-3 top-4 dark:text-white' />
                 </div>
 
                 {/* sorting */}
