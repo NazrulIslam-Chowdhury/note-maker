@@ -21,7 +21,7 @@ const NoteBin = () => {
 
     // load bin data
     const getBinNotes = useCallback(() => {
-        fetch(`https://note-maker-server.vercel.app/binNotes?email=${user?.email}`)
+        fetch(`http://localhost:5000/binNotes?email=${user?.email}`)
             .then(res => res.json())
             .then(data => setNotes(data))
     }, [user?.email]);

@@ -36,7 +36,7 @@ const MyNotes = () => {
 
     // load data
     const getNotes = useCallback(() => {
-        fetch(`https://note-maker-server.vercel.app/notesAll?email=${user?.email}`)
+        fetch(`http://localhost:5000/notesAll?email=${user?.email}`)
             .then(res => res.json())
             .then(data => setNotes(data))
     }, [user?.email]);

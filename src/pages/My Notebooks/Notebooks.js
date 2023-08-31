@@ -13,7 +13,7 @@ const Notebooks = () => {
     // get all notebooks
     const myNotebooks = useCallback(
         async () => {
-            const req = await fetch(`https://note-maker-server.vercel.app/categories?email=${user?.email}`);
+            const req = await fetch(`http://localhost:5000/categories?email=${user?.email}`);
             const res = await req.json();
             setNotebooks(res);
         }, [user?.email]

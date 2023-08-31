@@ -15,7 +15,7 @@ const restoreNote = async (id, note, user, getBinNotes) => {
         created: time
     }
 
-    const req = await fetch('https://note-maker-server.vercel.app/notes', {
+    const req = await fetch('http://localhost:5000/notes', {
         method: 'POST',
         headers: {
             'content-type': 'application/json'
@@ -27,7 +27,7 @@ const restoreNote = async (id, note, user, getBinNotes) => {
 
 
     // deleting note
-    const res = await fetch(`https://note-maker-server.vercel.app/binNotes/${id}`, {
+    const res = await fetch(`http://localhost:5000/binNotes/${id}`, {
         method: 'DELETE'
     })
     const data = await res.json();
