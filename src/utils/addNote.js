@@ -16,7 +16,7 @@ const addNote = async (data, setIsLoading, user, image_hosting_url) => {
     const image = res.data?.display_url;
 
     try {
-        const cate = await fetch('http://localhost:5000/note-categories', {
+        const cate = await fetch('https://note-server-alpha.vercel.app/note-categories', {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json'
@@ -43,7 +43,7 @@ const addNote = async (data, setIsLoading, user, image_hosting_url) => {
     }
 
     try {
-        const result = await fetch('http://localhost:5000/notes', {
+        const result = await fetch('https://note-server-alpha.vercel.app/notes', {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json'

@@ -18,7 +18,7 @@ const deleteNote = async (id, getNotes, note, user) => {
             deleted: time
         }
 
-        const req = await fetch('http://localhost:5000/binNotes', {
+        const req = await fetch('https://note-server-alpha.vercel.app/binNotes', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -30,7 +30,7 @@ const deleteNote = async (id, getNotes, note, user) => {
 
 
         // deleting note
-        const res = await fetch(`http://localhost:5000/notesAll/${id}`, {
+        const res = await fetch(`https://note-server-alpha.vercel.app/notesAll/${id}`, {
             method: 'DELETE'
         })
         const data = await res.json();

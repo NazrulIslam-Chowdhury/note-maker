@@ -10,13 +10,13 @@ const Notebooks = () => {
     const { user } = useContext(AuthContext);
     const [notebooks, setNotebooks] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    // const [showMenu, setShowMenu] = useState(false);
+
     useTitle('Notebooks')
 
     // get all notebooks
     const myNotebooks = useCallback(
         async () => {
-            const req = await fetch(`http://localhost:5000/categories?email=${user?.email}`);
+            const req = await fetch(`https://note-server-alpha.vercel.app/categories?email=${user?.email}`);
             const res = await req.json();
             setNotebooks(res);
         }, [user?.email]
@@ -34,11 +34,11 @@ const Notebooks = () => {
     const deleteOnClick = async (category) => {
         const proceed = window.confirm('Are you sure you want to delete this category? If do this all notes of this category will be deleted')
         if (proceed) {
-            const res = await fetch(`http://localhost:5000/categories/${category}?email=${user?.email}`, {
+            const res = await fetch(`https://note-server-alpha.vercel.app/categories/${category}?email=${user?.email}`, {
                 method: "DELETE"
             });
             const data = await res.json();
-            const req = await fetch(`http://localhost:5000/categoryNotes/${category}?email=${user?.email}`, {
+            const req = await fetch(`https://note-server-alpha.vercel.app/categoryNotes/${category}?email=${user?.email}`, {
                 method: "DELETE"
             });
             const response = await req.json();
@@ -80,7 +80,6 @@ const Notebooks = () => {
                                 </div>
                             </div>
                             <p className='dark:text-white p-3 lowercase' >{uniqueCategory}</p>
-
                         </div>
                     ))
                 }
