@@ -66,7 +66,7 @@ const MyNotes = () => {
         }
     }
 
-    if (isLoading) return <h1 className='absolute left-[52rem] top-[20rem] z-10'>Loading...</h1>
+    if (isLoading) return <h1 className='absolute left-[52rem] top-[20rem] z-10 dark:text-white text-black'>Loading...</h1>
 
     return (
         <div className='left-24 sm:left-[7rem] top-2 sm:top-8 absolute sm:w-[89.5vw] w-[72vw] space-y-4 '>
