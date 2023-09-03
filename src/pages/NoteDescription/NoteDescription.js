@@ -72,7 +72,7 @@ const NoteDescription = () => {
             <p className='dark:text-slate-400 group-hover:text-white transition-colors duration-[0.5]'><span className='text-slate-500 text-sm'>Description :</span> {description}</p>
             <img
               src={image}
-              alt={image === null ? 'No image to show' : { title }}
+              alt={image === null ? 'No image to show' : title}
               className='w-[300px] h-[300px] object-cover mt-10 dark:text-slate-400'
             />
           </div>

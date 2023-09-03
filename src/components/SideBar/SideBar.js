@@ -13,7 +13,7 @@ import { toast } from 'react-hot-toast';
 
 const SideBar = () => {
     const { user, logout } = useContext(AuthContext)
-    const [close, setClose] = useState(false);
+    const [close, setClose] = useState(true);
     const [theme, setTheme] = useState(localStorage.getItem('theme'));
 
     Mode(theme);

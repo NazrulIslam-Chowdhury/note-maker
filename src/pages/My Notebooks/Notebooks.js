@@ -55,35 +55,41 @@ const Notebooks = () => {
     return (
         <div
             className='left-24 sm:left-[7rem] top-16 sm:top-8 sm:w-[89.5vw] w-[72vw] space-y-4 relative'>
-            <div
-                className='flex items-center justify-start sm:translate-x-64 translate-x-0 flex-wrap sm:gap-28 gap-2' >
-                {
-                    uniqueCategories.map((uniqueCategory, idx) => (
-                        <div
-                            key={idx}
-                        >
 
-                            <div className='flex flex-col bg-slate-300 gap-20 p-5 rounded-md relative'>
-                                <AiFillFolderOpen className='w-20 h-20 dark:text-gray-400' />
-                                <div className='text-slate-700 dark:text-slate-400 bottom-0 rounded-md'>
-                                    <Link
-                                        to={`/category-notebooks/${uniqueCategory}/${user?.email}`}
-                                        className='hover:bg-slate-800 hover:text-white px-2 py-1 transition-colors duration-[0.5s] cursor-pointer rounded absolute left-2 bottom-2'
-                                    >
-                                        <AiOutlineEye className='w-6 h-6' />
-                                    </Link>
-                                    <div
-                                        onClick={() => deleteOnClick(uniqueCategory)}
-                                        className='hover:bg-slate-800 hover:text-white px-2 py-1 transition-colors duration-[0.5s] cursor-pointer rounded absolute right-2 bottom-2'>
-                                        <MdOutlineDeleteForever className='w-6 h-6' />
+            {
+                uniqueCategories.length > 0 ?
+                    <div
+                        className='flex items-center flex-wrap sm:gap-28 gap-2 overflow-hidden' >
+                        {
+                            uniqueCategories.map((uniqueCategory, idx) => (
+                                <div
+                                    key={idx}
+                                >
+
+                                    <div className='flex flex-col bg-slate-300 gap-20 p-5 rounded-md relative'>
+                                        <AiFillFolderOpen className='w-20 h-20 dark:text-gray-400' />
+                                        <div className='text-slate-700 dark:text-slate-400 bottom-0 rounded-md'>
+                                            <Link
+                                                to={`/category-notebooks/${uniqueCategory}/${user?.email}`}
+                                                className='hover:bg-slate-800 hover:text-white px-2 py-1 transition-colors duration-[0.5s] cursor-pointer rounded absolute left-2 bottom-2'
+                                            >
+                                                <AiOutlineEye className='w-6 h-6' />
+                                            </Link>
+                                            <div
+                                                onClick={() => deleteOnClick(uniqueCategory)}
+                                                className='hover:bg-slate-800 hover:text-white px-2 py-1 transition-colors duration-[0.5s] cursor-pointer rounded absolute right-2 bottom-2'>
+                                                <MdOutlineDeleteForever className='w-6 h-6' />
+                                            </div>
+                                        </div>
                                     </div>
+                                    <p className='dark:text-white p-3 lowercase' >{uniqueCategory}</p>
                                 </div>
-                            </div>
-                            <p className='dark:text-white p-3 lowercase' >{uniqueCategory}</p>
-                        </div>
-                    ))
-                }
-            </div>
+                            ))
+                        }
+                    </div>
+                    :
+                    <p className='text-center text-4xl font-semibold dark:text-slate-200 mt-10'>No categories to show</p>
+            }
         </div>
     )
 }

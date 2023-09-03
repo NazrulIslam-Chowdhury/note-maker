@@ -154,7 +154,7 @@ const Favorite = () => {
                         }
                     </div>
                     :
-                    <p className='text-center text-4xl font-semibold dark:text-slate-200 mt-10'>There are No favorite notes</p>
+                    <p className='text-center text-4xl font-semibold dark:text-slate-200 mt-10'>No favorite notes to show</p>
             }
 
 
