@@ -36,9 +36,11 @@ const MyNotes = () => {
 
     // load data
     const getNotes = useCallback(() => {
-        fetch(`https://note-server-alpha.vercel.app/notesAll?email=${user?.email}`)
-            .then(res => res.json())
-            .then(data => setNotes(data))
+        try {
+            fetch(`https://note-server-alpha.vercel.app/notesAll?email=${user?.email}`)
+                .then(res => res.json())
+                .then(data => setNotes(data))
+        } catch (error) { }
     }, [user?.email]);
 
     useEffect(() => {
